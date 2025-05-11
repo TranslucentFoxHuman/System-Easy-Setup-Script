@@ -41,5 +41,19 @@ This script differs from 11Tweaks.ps1 in the following ways:
 - Install [LibreWolf](https://librewolf.net) instead of Firefox
 - Install [CorvusSKK](https://github.com/nathancorvussolis/corvusskk), the Japanese Input Method
 
-# License
+## How to use
+### 11Tweaks.ps1
+Download this script. [https://github.com/TranslucentFoxHuman/System-Easy-Setup-Script/raw/refs/heads/main/11Tweaks.ps1](https://github.com/TranslucentFoxHuman/System-Easy-Setup-Script/raw/refs/heads/main/11Tweaks.ps1)  
+Open Windows PowerShell as Administrator, then run this command:
+```
+powershell -executionpolicy bypass <path to 11Tweaks.ps1>
+```
+When you run this, a description of what will be executed sequentially will be displayed, along with a prompt asking whether to proceed with the execution. You should follow the prompt and specify whether to execute by entering Y or N.
+
+## Features planned but not yet implemented
+### 11Tweaks.ps1
+- [ ] Install 7-Zip
+- [ ] Install ImDisk drivers and toolkit
+
+## License
 These scripts are provided under the Public Domain.
