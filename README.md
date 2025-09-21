@@ -25,7 +25,6 @@ This script does common(?) initial setup for Windows 11. You can perform the fol
 	- Uninstall Microsoft Edge right now
 	- Schedule a task to uninstall Microsoft Edge at every startup.
 - Install [MSEdge-Redirect](https://github.com/rcmaehl/MSEdgeRedirect)
-- Disable the window rounded corners (Using [Win11 Toggle Rounded Corners](https://github.com/rich-ayr/win11-toggle-rounded-corners))
 - Disable the Web search feature on taskbar
 - Get back the Windows 10-style Control Center
 - Get back these folders in start menu:
