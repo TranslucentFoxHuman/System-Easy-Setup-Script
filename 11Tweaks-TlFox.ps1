@@ -43,15 +43,16 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N" -and $YESORNO -ne "y" -and $YESORNO -
 
 $YESORNO = Read-Host "Do you want to Download Librewolf?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
-    Write-Host "Librewolf 137.0.2 will downloaded. Please run Librewolf WinUpdater after installing this."
-    Invoke-WebRequest -UseBasicParsing -Uri "https://gitlab.com/api/v4/projects/44042130/packages/generic/librewolf/137.0.2-1/librewolf-137.0.2-1-windows-x86_64-setup.exe" -OutFile "$HOME\Downloads\librewolf-137.0.2-1-windows-x86_64-setup.exe"
-    Start-Process "$HOME\Downloads\librewolf-137.0.2-1-windows-x86_64-setup.exe"
+    Write-Host "Librewolf 143.0-1 will downloaded. Please run Librewolf WinUpdater after installing this."
+    Invoke-WebRequest -UseBasicParsing -Uri "https://gitlab.com/api/v4/projects/44042130/packages/generic/librewolf/143.0-1/librewolf-143.0-1-windows-x86_64-setup.exe" -OutFile "$HOME\Downloads\librewolf-143.0-1-windows-x86_64-setup.exe"
+    Start-Process "$HOME\Downloads\librewolf-143.0-1-windows-x86_64-setup.exe"
 }
+
 $YESORNO = Read-Host "Do you want to install Remove-MSEdge?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     New-Item -Force -Path "C:\Program Files\Remove-Edge" -ItemType "Directory"
     Add-MpPreference -ExclusionPath "C:\Program Files\Remove-Edge\Remove-Edge.exe"
-    Invoke-Webrequest -Uri "https://github.com/ShadowWhisperer/Remove-MS-Edge/blob/main/Remove-Edge.exe?raw=true" -OutFile "C:\Program Files\Remove-Edge\Remove-Edge.exe"
+    Invoke-Webrequest -Uri "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe" -OutFile "C:\Program Files\Remove-Edge\Remove-Edge.exe"
     $TSAction = New-ScheduledTaskAction -Execute "C:\Program Files\Remove-Edge\Remove-Edge.exe"
     $TSTrigger = New-ScheduledTaskTrigger -AtStartup
     $TSSettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -StartWhenAvailable -RestartCount 5 -RestartInterval (New-TimeSpan -Minutes 1)
@@ -63,17 +64,18 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
         Start-ScheduledTask -TaskName "Remove-Edge"
     }
 }
-$YESORNO = Read-Host "Do you want to Install MSEdge Redirect?(Y/n): "
+$YESORNO = Read-Host "Do you want to install MSEdge Redirect?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     Invoke-WebRequest -Uri "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe" -OutFile "$HOME\Downloads\MSEdgeRedirect.exe"
     Start-Process "$HOME\Downloads\MSEdgeRedirect.exe"
 }
 
-$YESORNO = Read-Host "Do you want to Install Toggle-Rouded-Corners?(Y/n): "
-if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
-    Invoke-WebRequest -Uri "https://github.com/rich-ayr/win11-toggle-rounded-corners/releases/download/v1.2/win11-toggle-rounded-corners-setup.exe" -OutFile "$HOME\Downloads\win11-toggle-rounded-corners-setup.exe"
-    Start-Process "$HOME\Downloads\win11-toggle-rounded-corners-setup.exe"
-}
+#$YESORNO = Read-Host "Do you want to disable the window rounded corners?(Y/n): "
+#if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+#    Write-Host "Win11 Toggle Rounded Corners will downloaded. Please install it. The rounded corners are disabled."
+#    Invoke-WebRequest -Uri "https://github.com/rich-ayr/win11-toggle-rounded-corners/releases/download/v1.2/win11-toggle-rounded-corners-setup.exe" -OutFile "$HOME\Downloads\win11-toggle-rounded-corners-setup.exe"
+#    Start-Process "$HOME\Downloads\win11-toggle-rounded-corners-setup.exe"
+#}
 
 # Registory tweaks
 $YESORNO = Read-Host "Do you want to disable Web search on taskbar?(Y/n): "
@@ -81,7 +83,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     New-Item -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Force
     New-ItemProperty -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -PropertyType "DWORD" -Value 1 -Name "DisableSearchBoxSuggestions" -Force
 }
-$YESORNO = Read-Host "Do you want to get back the Windows 10 Control Center?(Y/n): "
+$YESORNO = Read-Host "Do you want to get back the Windows 10-style Control Center?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Center" -Force
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Center" -PropertyType "DWORD" -Value 1 -Name "UseLiteLayout" -Force
@@ -93,7 +95,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     $DESTACCESS="WindowsAccessories"
     $DESTSYSTOOL="SystemTools"
     $DESTADMTOOL="Administrative Tools"
-    $YESORNO = Read-Host "Do you want to use Japanese for the destination folder name? (y/N)"
+    $YESORNO = Read-Host "フォルダ名に日本語を使用しますか? (Do you want to use Japanese for the destination folder name?) (y/N)"
     if ($YESORNO -eq "y" -or $YESORNO -eq "Y") {
         $DESTACCESS="Windowsアクセサリ"
         $DESTSYSTOOL="Windowsシステムツール"
@@ -120,14 +122,10 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     Add-MpPreference -ExclusionPath "C:\Windows\dxgi.dll"
     Add-MpPreference -ExclusionPath "C:\Windows\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy"
     Add-MpPreference -ExclusionPath "C:\Windows\SystemApps\ShellExperienceHost_cw5n1h2txyewy"
-    Invoke-WebRequest -Uri https://github.com/valinet/ExplorerPatcher/releases/download/22621.4317.67.1_b93337a/ep_setup.exe -OutFile "$HOME\Downloads\ep_setup.exe"
+    Invoke-WebRequest -Uri "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe" -OutFile "$HOME\Downloads\ep_setup.exe"
     Start-Process "$HOME\Downloads\ep_setup.exe"
 }
 
-
-
-
-#Install SKK Japanese Input
 Write-Host "***This procedure was prepared exclusively for myself, the script developer. Most users don't need this procedure.***"
 $YESORNO = Read-Host "Are you a Japanese and using SKK? Do you want to install CorvusSKK?(y/N): "
 if($YESORNO -eq "y" -or $YESORNO -eq "Y") {
