@@ -1,4 +1,4 @@
-# Windows 11 Easy Setup Script
+Ôªø# Windows 11 Easy Setup Script
 # 
 # This script is provided under the public domain.
 
@@ -15,6 +15,10 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     Write-Host "Please run as Administrator."
     exit
 }
+
+# Global variable
+$USE_WGET = "0"
+
 
 Write-Host "Welcome to Windows 11 Easy Setup Script!"
 
@@ -41,22 +45,48 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N" -and $YESORNO -ne "y" -and $YESORNO -
 
 # Download essential softwares.
 
+$YESORNO = Read-Host "Do you want to download the real Wget?(Y/n): "
+if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+    New-Item -Force -Path "C:\Program Files\Wget" -ItemType "Directory"
+    Invoke-WebRequest -Uri "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe" -OutFile "C:\Program Files\Wget\wget.exe"
+    $PATH_OLD = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).Path
+    $PATH_NEW = $PATH_OLD + ';C:\Program Files\Wget'
+    Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $PATH_NEW
+    $YESORNO = Read-Host "Do you want to use the real Wget for faster download?(Y/n): "
+    if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+        $USE_WGET="1"
+    }
+} elseif (Test-Path -Path "C:\Program Files\Wget\wget.exe") {
+    $YESORNO = Read-Host "Do you want to use the real Wget for faster download?(Y/n): "
+    if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+        $USE_WGET="1"
+    }
+}
+
 $YESORNO = Read-Host "Do you want to download Firefox?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
-    $YESORNO = Read-Host "ì˙ñ{åÍî≈ÇÉ_ÉEÉìÉçÅ[ÉhÇµÇ‹Ç∑Ç©? (Do you want to download Japanese version?(y/N) "
+    $YESORNO = Read-Host "Êó•Êú¨Ë™ûÁâà„Çí„ÉÄ„Ç¶„É≥„É≠„Éº„Éâ„Åó„Åæ„Åô„Åã? (Do you want to download Japanese version?(y/N) "
     if ($YESORNO -eq "Y" -or $YESORNO -eq "y") {
         $DLURI = "https://download.mozilla.org/?product=firefox-stub&os=win64&lang=ja"
     } else {
         $DLURI = "https://download.mozilla.org/?product=firefox-stub&os=win64"
     }
-    Invoke-WebRequest -UseBasicParsing -Uri $DLURI -OutFile "$HOME\Downloads\FirefoxSetup.exe"
+    if ($USE_WGET -eq "1") {
+        & "C:\Program Files\Wget\wget.exe" -O "$HOME\Downloads\FirefoxSetup.exe" $DLURI
+    } else {
+        Invoke-WebRequest -UseBasicParsing -Uri $DLURI -OutFile "$HOME\Downloads\FirefoxSetup.exe"
+    }
     Start-Process "$HOME\Downloads\FirefoxSetup.exe"
 }
 $YESORNO = Read-Host "Do you want to install Remove-MSEdge?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     New-Item -Force -Path "C:\Program Files\Remove-Edge" -ItemType "Directory"
     Add-MpPreference -ExclusionPath "C:\Program Files\Remove-Edge\Remove-Edge.exe"
-    Invoke-Webrequest -Uri "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe" -OutFile "C:\Program Files\Remove-Edge\Remove-Edge.exe"
+    if ($USE_WGET -eq "1") {
+        & "C:\Program Files\Wget\wget.exe" -O "C:\Program Files\Remove-Edge\Remove-Edge.exe" "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe"
+    } else {
+        Invoke-Webrequest -Uri "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe" -OutFile "C:\Program Files\Remove-Edge\Remove-Edge.exe"
+    }
     $TSAction = New-ScheduledTaskAction -Execute "C:\Program Files\Remove-Edge\Remove-Edge.exe"
     $TSTrigger = New-ScheduledTaskTrigger -AtStartup
     $TSSettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -StartWhenAvailable -RestartCount 5 -RestartInterval (New-TimeSpan -Minutes 1)
@@ -70,7 +100,11 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 }
 $YESORNO = Read-Host "Do you want to install MSEdge Redirect?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
-    Invoke-WebRequest -Uri "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe" -OutFile "$HOME\Downloads\MSEdgeRedirect.exe"
+    if ($USE_WGET -eq "1") {
+        & "C:\Program Files\Wget\wget.exe" -O "$HOME\Downloads\MSEdgeRedirect.exe" "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe"
+    } else {
+        Invoke-WebRequest -Uri "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe" -OutFile "$HOME\Downloads\MSEdgeRedirect.exe"
+    }
     Start-Process "$HOME\Downloads\MSEdgeRedirect.exe"
 }
 
@@ -99,11 +133,11 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     $DESTACCESS="WindowsAccessories"
     $DESTSYSTOOL="SystemTools"
     $DESTADMTOOL="Administrative Tools"
-    $YESORNO = Read-Host "ÉtÉHÉãÉ_ñºÇ…ì˙ñ{åÍÇégópÇµÇ‹Ç∑Ç©? (Do you want to use Japanese for the destination folder name?) (y/N)"
+    $YESORNO = Read-Host "„Éï„Ç©„É´„ÉÄÂêç„Å´Êó•Êú¨Ë™û„Çí‰ΩøÁî®„Åó„Åæ„Åô„Åã? (Do you want to use Japanese for the destination folder name?) (y/N)"
     if ($YESORNO -eq "y" -or $YESORNO -eq "Y") {
-        $DESTACCESS="WindowsÉAÉNÉZÉTÉä"
-        $DESTSYSTOOL="WindowsÉVÉXÉeÉÄÉcÅ[Éã"
-        $DESTADMTOOL="Windowsä«óùÉcÅ[Éã"
+        $DESTACCESS="WindowsWindows„Ç¢„ÇØ„Çª„Çµ„É™"
+        $DESTSYSTOOL="Windows„Ç∑„Çπ„ÉÜ„É†„ÉÑ„Éº„É´"
+        $DESTADMTOOL="WindowsÁÆ°ÁêÜ„ÉÑ„Éº„É´"
     }
     New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS" -ItemType "Directory" -Force
     New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL" -ItemType "Directory" -Force
@@ -126,6 +160,10 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     Add-MpPreference -ExclusionPath "C:\Windows\dxgi.dll"
     Add-MpPreference -ExclusionPath "C:\Windows\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy"
     Add-MpPreference -ExclusionPath "C:\Windows\SystemApps\ShellExperienceHost_cw5n1h2txyewy"
-    Invoke-WebRequest -Uri "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe" -OutFile "$HOME\Downloads\ep_setup.exe"
+    if ($USE_WGET -eq "1") {
+        & "C:\Program Files\Wget\wget.exe" -O "$HOME\Downloads\ep_setup.exe" "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe"
+    } else {
+        Invoke-WebRequest -Uri "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe" -OutFile "$HOME\Downloads\ep_setup.exe"
+    }
     Start-Process "$HOME\Downloads\ep_setup.exe"
 }
