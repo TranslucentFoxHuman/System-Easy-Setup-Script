@@ -67,7 +67,7 @@ $YESORNO = Read-Host "Do you want to Download Librewolf?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     Write-Host "Librewolf 144.0-1 will downloaded. Please run Librewolf WinUpdater after installing this."
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\Downloads\librewolf-144.0-1-windows-x86_64-setup.exe" "https://gitlab.com/api/v4/projects/44042130/packages/generic/librewolf/144.0-1/librewolf-144.0-1-windows-x86_64-setup.exe"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\librewolf-144.0-1-windows-x86_64-setup.exe" "https://gitlab.com/api/v4/projects/44042130/packages/generic/librewolf/144.0-1/librewolf-144.0-1-windows-x86_64-setup.exe"
     } else {
         Invoke-WebRequest -UseBasicParsing -Uri "https://gitlab.com/api/v4/projects/44042130/packages/generic/librewolf/144.0-1/librewolf-144.0-1-windows-x86_64-setup.exe" -OutFile "$HOME\Downloads\librewolf-144.0-1-windows-x86_64-setup.exe"
     }
