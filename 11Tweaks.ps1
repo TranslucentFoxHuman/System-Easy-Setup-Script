@@ -141,13 +141,21 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     }
     #Accessories
     New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS" -ItemType "Directory" -Force
+    New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS\desktop.ini" -ItemType "File" -Force
+    [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("W0xvY2FsaXplZEZpbGVOYW1lc10NCldpbmRvd3MgTWVkaWEgUGxheWVyIExlZ2FjeS5sbms9QCVzeXN0ZW1yb290JVxzeXN3b3c2NFx3bXBsb2MuZGxsLC0xMDINClN0ZXBzIFJlY29yZGVyLmxuaz1AJVN5c3RlbVJvb3QlXHN5c3RlbTMyXHBzci5leGUsLTE3MDENClJlbW90ZSBEZXNrdG9wIENvbm5lY3Rpb24ubG5rPUAlU3lzdGVtUm9vdCVcc3lzdGVtMzJcbXN0c2MuZXhlLC00MDAwDQo=")) | Out-File "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS\desktop.ini"
+    Move-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Accessories\*" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS" -Force
+    Move-Item -Path "$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Accessories\*.lnk" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS" -Force
+    $fobj = Get-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS"
+    $fobj.Attributes = "System"
+    $fobj = Get-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS\desktop.ini"
+    $fobj.Attributes = "System", "Hidden"
     
     #System Tools
     New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL" -ItemType "Directory" -Force
     New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL\desktop.ini" -ItemType "File" -Force
     [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("W0xvY2FsaXplZEZpbGVOYW1lc10NClRhc2sgTWFuYWdlci5sbms9QCVTeXN0ZW1Sb290JVxzeXN0ZW0zMlxUYXNrbWdyLmV4ZSwtMzI0MjANCkNvbW1hbmQgUHJvbXB0Lmxuaz1AJVN5c3RlbVJvb3QlXHN5c3RlbTMyXHNoZWxsMzIuZGxsLC0yMjAyMg0KUnVuLmxuaz1AJVN5c3RlbVJvb3QlXHN5c3RlbTMyXHNoZWxsMzIuZGxsLC0xMjcxMA0KQ29udHJvbCBQYW5lbC5sbms9QCVTeXN0ZW1Sb290JVxzeXN0ZW0zMlxzaGVsbDMyLmRsbCwtMTI3MTINCg==")) | Out-File "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL\desktop.ini"
-    Move-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Accessories\*.lnk" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS" -Force
     Move-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\System Tools\*.lnk" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL" -Force
+    Move-Item -Path "$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\System Tools\*" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL" -Force
     $fobj = Get-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL"
     $fobj.Attributes = "System"
     $fobj = Get-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL/desktop.ini"
@@ -166,8 +174,6 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     
     # System Folder
     # User Folder
-    Move-Item -Path "$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Accessories\" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS" -Force
-    Move-Item -Path "$HOME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\System Tools\*" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL" -Force
 }
 
 # Install ExplorerPatcher
