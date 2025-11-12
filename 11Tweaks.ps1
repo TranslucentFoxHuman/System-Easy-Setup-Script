@@ -6,7 +6,7 @@
 # TODO:
 # -[x] Add Toggle Rounded Corners 
 # -[x] Rename Windows Tools Startmenu folder
-# -[ ] Apply LocalizedResourceName
+# -[x] Apply LocalizedResourceName
 # -[x] Add license text
 
 
@@ -135,7 +135,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     $DESTADMTOOL="AdministrativeTools"
     $YESORNO = Read-Host "Do you want to use Japanese for the destination folder name? (y/N)"
     if ($YESORNO -eq "y" -or $YESORNO -eq "Y") {
-        $DESTACCESS="WindowsWindowsアクセサリ"
+        $DESTACCESS="Windowsアクセサリ"
         $DESTSYSTOOL="Windowsシステムツール"
         $DESTADMTOOL="Windows管理ツール"
     }
@@ -172,8 +172,6 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     $fobj = Get-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTADMTOOL\desktop.ini"
     $fobj.Attributes = "System", "Hidden"
     
-    # System Folder
-    # User Folder
 }
 
 # Install ExplorerPatcher
