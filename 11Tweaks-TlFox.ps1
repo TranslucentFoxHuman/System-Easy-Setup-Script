@@ -131,9 +131,9 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     $DESTADMTOOL="AdministrativeTools"
     $YESORNO = Read-Host "Do you want to use Japanese for the destination folder name? (y/N)"
     if ($YESORNO -eq "y" -or $YESORNO -eq "Y") {
-        $DESTACCESS="WindowsƒAƒNƒZƒTƒŠ"
-        $DESTSYSTOOL="WindowsƒVƒXƒeƒ€ƒc[ƒ‹"
-        $DESTADMTOOL="WindowsŠÇ—ƒc[ƒ‹"
+        $DESTACCESS="Windowsã‚¢ã‚¯ã‚»ã‚µãƒª"
+        $DESTSYSTOOL="Windowsã‚·ã‚¹ãƒ†ãƒ ãƒ„ãƒ¼ãƒ«"
+        $DESTADMTOOL="Windowsç®¡ç†ãƒ„ãƒ¼ãƒ«"
     }
     #Accessories
     New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS" -ItemType "Directory" -Force
