@@ -49,6 +49,8 @@ powershell -executionpolicy bypass <path to 11Tweaks.ps1>
 ```
 When you run this, a description of what will be executed sequentially will be displayed, along with a prompt asking whether to proceed with the execution. You should follow the prompt and specify whether to execute by entering Y or N.
 
+Do you absolutely never want to launch Microsoft Edge? Or perhaps you're using Tiny 11 or a similar environment and don't have a browser? It's hidden, but there is Internet Explorer! Using the method on the following page, you can open Internet Explorer. Open IE and use it to download this script:
+[https://tlfoxhuman.net/ietools/how-to-open-ie.html](https://tlfoxhuman.net/ietools/how-to-open-ie.html)
 ## Features planned but not yet implemented
 ### 11Tweaks.ps1
 - [ ] Install 7-Zip
