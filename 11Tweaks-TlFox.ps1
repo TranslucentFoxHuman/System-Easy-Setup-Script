@@ -52,13 +52,28 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 	Invoke-Webrequest -Uri "https://curl.se/windows/latest.cgi?p=win64-mingw.zip" -OutFile "$HOME\Downloads\curl.zip"
 	Expand-Archive "$HOME\Downloads\curl.zip" -DestinationPath "$env:TEMP\curl"
 	Rename-Item (Get-ChildItem -Directory "$env:TEMP\curl\curl*" | Select-Object -First 1) "curl"
-	Move-Item -Path "$env:TEMP\curl\curl" -Destination "C:\Program Files\" -Force
-	Remove-Item -Path "$env:TEMP\curl"
+	Copy-Item -Path "$env:TEMP\curl\curl" -Destination "C:\Program Files\" -Force -Recurse
+	Remove-Item -Path "$env:TEMP\curl" -Recurse -Force
 	$PATH_OLD = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).Path
     $PATH_NEW = $PATH_OLD + ';C:\Program Files\curl\bin'
     Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $PATH_NEW
-    Add-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1" -Value "Remove-Item alias:curl"
-    Remove-Item alias:curl
+    if (Test-Path -Path "$PSHOME\Microsoft.PowerShell_profile.ps1") {
+        $psprofile = Get-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1"
+        $found_rmcurl="0"
+        foreach ($line in $psprofile) {
+            if ($line -match "Remove-Item alias:curl") {
+                $found_rmcurl="1"
+                break
+            }
+        }
+        if ($found_rmcurl -ne "1") {
+            Add-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1" -Value "Remove-Item alias:curl"
+            Remove-Item alias:curl
+        }
+    } else {
+        Add-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1" -Value "Remove-Item alias:curl"
+        Remove-Item alias:curl
+    }
 
     $YESORNO = Read-Host "Do you want to use the real curl for faster download?(Y/n): "
     if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
