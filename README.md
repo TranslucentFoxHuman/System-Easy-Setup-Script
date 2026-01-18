@@ -15,6 +15,9 @@ The Debian/Ubuntu script is also in my hands, but this is not published because 
 ## Included scripts
 ### 11Tweaks.ps1
 This script does common(?) initial setup for Windows 11. You can perform the following operations:
+- Download and install the official version of curl.
+	- Disable the utterly foolish PowerShell curl alias so that the official curl is executed.
+- Use curl for downloading instead of the slow built‑in PowerShell Invoke-WebRequest.
 - Uninstall these:
 	- Teams
 	- Outlook

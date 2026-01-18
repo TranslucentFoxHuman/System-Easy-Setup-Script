@@ -18,6 +18,7 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 # Global variable
 $USE_WGET = "0"
+$CURL_EXEC="C:\Program Files\curl\bin\curl.exe"
 
 
 Write-Host "Welcome to Windows 11 Easy Setup Script!"
@@ -45,19 +46,26 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N" -and $YESORNO -ne "y" -and $YESORNO -
 
 # Download essential softwares.
 
-$YESORNO = Read-Host "Do you want to download the real Wget?(Y/n): "
+$YESORNO = Read-Host "Do you want to download the real curl?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
-    New-Item -Force -Path "C:\Program Files\Wget" -ItemType "Directory"
-    Invoke-WebRequest -Uri "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe" -OutFile "C:\Program Files\Wget\wget.exe"
-    $PATH_OLD = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).Path
-    $PATH_NEW = $PATH_OLD + ';C:\Program Files\Wget'
+	New-Item -Force -Path "$env:TEMP\curl" -ItemType "Directory"
+	Invoke-Webrequest -Uri "https://curl.se/windows/latest.cgi?p=win64-mingw.zip" -OutFile "$HOME\Downloads\curl.zip"
+	Expand-Archive "$HOME\Downloads\curl.zip" -DestinationPath "$env:TEMP\curl"
+	Rename-Item (Get-ChildItem -Directory "$env:TEMP\curl\curl*" | Select-Object -First 1) "curl"
+	Move-Item -Path "$env:TEMP\curl\curl" -Destination "C:\Program Files\" -Force
+	Remove-Item -Path "$env:TEMP\curl"
+	$PATH_OLD = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).Path
+    $PATH_NEW = $PATH_OLD + ';C:\Program Files\curl\bin'
     Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $PATH_NEW
-    $YESORNO = Read-Host "Do you want to use the real Wget for faster download?(Y/n): "
+    Add-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1" -Value "Remove-Item alias:curl"
+    Remove-Item alias:curl
+
+    $YESORNO = Read-Host "Do you want to use the real curl for faster download?(Y/n): "
     if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
         $USE_WGET="1"
     }
-} elseif (Test-Path -Path "C:\Program Files\Wget\wget.exe") {
-    $YESORNO = Read-Host "Do you want to use the real Wget for faster download?(Y/n): "
+} elseif (Test-Path -Path "C:\Program Files\curl\bin\curl.exe") {
+    $YESORNO = Read-Host "Do you want to use the real curl for faster download?(Y/n): "
     if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
         $USE_WGET="1"
     }
@@ -67,7 +75,7 @@ $YESORNO = Read-Host "Do you want to Download Librewolf?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     Write-Host "Librewolf 144.0-1 will downloaded. Please run Librewolf WinUpdater after installing this."
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\librewolf-144.0-1-windows-x86_64-setup.exe" "https://gitlab.com/api/v4/projects/44042130/packages/generic/librewolf/144.0-1/librewolf-144.0-1-windows-x86_64-setup.exe"
+        & $CURL_EXEC -L -o "$HOME\Downloads\librewolf-144.0-1-windows-x86_64-setup.exe" "https://gitlab.com/api/v4/projects/44042130/packages/generic/librewolf/144.0-1/librewolf-144.0-1-windows-x86_64-setup.exe"
     } else {
         Invoke-WebRequest -UseBasicParsing -Uri "https://gitlab.com/api/v4/projects/44042130/packages/generic/librewolf/144.0-1/librewolf-144.0-1-windows-x86_64-setup.exe" -OutFile "$HOME\Downloads\librewolf-144.0-1-windows-x86_64-setup.exe"
     }
@@ -79,7 +87,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     New-Item -Force -Path "C:\Program Files\Remove-Edge" -ItemType "Directory"
     Add-MpPreference -ExclusionPath "C:\Program Files\Remove-Edge\Remove-Edge.exe"
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "C:\Program Files\Remove-Edge\Remove-Edge.exe" "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe"
+        & $CURL_EXEC -L -o "C:\Program Files\Remove-Edge\Remove-Edge.exe" "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe"
     } else {
         Invoke-Webrequest -Uri "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe" -OutFile "C:\Program Files\Remove-Edge\Remove-Edge.exe"
     }
@@ -97,7 +105,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 $YESORNO = Read-Host "Do you want to install MSEdge Redirect?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\MSEdgeRedirect.exe" "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe"
+        & $CURL_EXEC -L -o "$HOME\Downloads\MSEdgeRedirect.exe" "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe"
     } else {
         Invoke-WebRequest -Uri "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe" -OutFile "$HOME\Downloads\MSEdgeRedirect.exe"
     }
@@ -107,7 +115,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 $YESORNO = Read-Host "Do you want to install 7-Zip? (Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\7z2501-x64.exe" "https://7-zip.org/a/7z2501-x64.exe"
+        & $CURL_EXEC -L -o "$HOME\Downloads\7z2501-x64.exe" "https://7-zip.org/a/7z2501-x64.exe"
     } else {
         Invoke-WebRequest -Uri "https://7-zip.org/a/7z2501-x64.exe" -OutFile "$HOME\Downloads\7z2501-x64.exe"
     }
@@ -117,7 +125,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 $YESORNO = Read-Host "Do you want to install AIM Tookit? (It's successor of ImDisk Toolkit.)(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\AIMtk.zip" "https://twds.dl.sourceforge.net/project/aim-toolkit/20251223/AIMtk.zip?viasf=1"
+        & $CURL_EXEC -L -o "$HOME\Downloads\AIMtk.zip" "https://twds.dl.sourceforge.net/project/aim-toolkit/20251223/AIMtk.zip?viasf=1"
     } else {
         Invoke-WebRequest -Uri "https://twds.dl.sourceforge.net/project/aim-toolkit/20251223/AIMtk.zip?viasf=1" -OutFile "$HOME\Downloads\AIMtk.zip"
     }
@@ -213,7 +221,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     Add-MpPreference -ExclusionPath "C:\Windows\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy"
     Add-MpPreference -ExclusionPath "C:\Windows\SystemApps\ShellExperienceHost_cw5n1h2txyewy"
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\ep_setup.exe" "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe"
+        & $CURL_EXEC -L -o "$HOME\Downloads\ep_setup.exe" "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe"
     } else {
         Invoke-WebRequest -Uri "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe" -OutFile "$HOME\Downloads\ep_setup.exe"
     }
@@ -224,13 +232,13 @@ Write-Host "***This procedure was prepared exclusively for myself, the script de
 $YESORNO = Read-Host "Are you a Japanese and using SKK? Do you want to install CorvusSKK?(y/N): "
 if($YESORNO -eq "y" -or $YESORNO -eq "Y") {
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\corvusskk-3.3.1.exe" "https://github.com/nathancorvussolis/corvusskk/releases/download/3.3.1/corvusskk-3.3.1.exe"
+        & $CURL_EXEC -L -o "$HOME\Downloads\corvusskk-3.3.1.exe" "https://github.com/nathancorvussolis/corvusskk/releases/download/3.3.1/corvusskk-3.3.1.exe"
         New-Item -Force -Path "$HOME\AppData\Roaming\CorvusSKK\Dictionaries" -ItemType "Directory"
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.L" "http://openlab.jp/skk/skk/dic/SKK-JISYO.L"
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.jinmei" "http://openlab.jp/skk/skk/dic/SKK-JISYO.jinmei"
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.geo" "http://openlab.jp/skk/skk/dic/SKK-JISYO.geo"
-        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.station" "http://openlab.jp/skk/skk/dic/SKK-JISYO.station"
-         & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.emoji-ja.utf8" "https://github.com/TranslucentFoxHuman/SKK-JISYO.emoji-ja/raw/master/SKK-JISYO.emoji-ja.utf8"
+        & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.L" "http://openlab.jp/skk/skk/dic/SKK-JISYO.L"
+        & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.jinmei" "http://openlab.jp/skk/skk/dic/SKK-JISYO.jinmei"
+        & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.geo" "http://openlab.jp/skk/skk/dic/SKK-JISYO.geo"
+        & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.station" "http://openlab.jp/skk/skk/dic/SKK-JISYO.station"
+         & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.emoji-ja.utf8" "https://github.com/TranslucentFoxHuman/SKK-JISYO.emoji-ja/raw/master/SKK-JISYO.emoji-ja.utf8"
     } else {
         Invoke-WebRequest -Uri "https://github.com/nathancorvussolis/corvusskk/releases/download/3.3.1/corvusskk-3.3.1.exe" -OutFile "$HOME\Downloads\corvusskk-3.3.1.exe"
         New-Item -Force -Path "$HOME\AppData\Roaming\CorvusSKK\Dictionaries" -ItemType "Directory"

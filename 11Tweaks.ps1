@@ -57,14 +57,9 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 	$PATH_OLD = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).Path
     $PATH_NEW = $PATH_OLD + ';C:\Program Files\curl\bin'
     Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $PATH_NEW
-	
-	
-    #New-Item -Force -Path "C:\Program Files\Wget" -ItemType "Directory"
-    #Invoke-WebRequest -Uri "https://eternallybored.org/misc/wget/1.21.4/64/wget.exe" -OutFile "C:\Program Files\Wget\wget.exe"
-    #$PATH_OLD = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).Path
-    #$PATH_NEW = $PATH_OLD + ';C:\Program Files\Wget'
-    #Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $PATH_NEW
-	
+    Add-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1" -Value "Remove-Item alias:curl"
+    Remove-Item alias:curl
+
     $YESORNO = Read-Host "Do you want to use the real curl for faster download?(Y/n): "
     if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
         $USE_WGET="1"
