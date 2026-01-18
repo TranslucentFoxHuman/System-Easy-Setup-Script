@@ -65,14 +65,13 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 
 $YESORNO = Read-Host "Do you want to download Firefox?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
-    $YESORNO = Read-Host "Do you want to download Japanese version?(y/N) "
-    if ($YESORNO -eq "Y" -or $YESORNO -eq "y") {
+    if ((Get-UICulture).Name -eq "ja-JP") {
         $DLURI = "https://download.mozilla.org/?product=firefox-stub&os=win64&lang=ja"
     } else {
         $DLURI = "https://download.mozilla.org/?product=firefox-stub&os=win64"
     }
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\Downloads\FirefoxSetup.exe" $DLURI
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\FirefoxSetup.exe" $DLURI
     } else {
         Invoke-WebRequest -UseBasicParsing -Uri $DLURI -OutFile "$HOME\Downloads\FirefoxSetup.exe"
     }
@@ -83,7 +82,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     New-Item -Force -Path "C:\Program Files\Remove-Edge" -ItemType "Directory"
     Add-MpPreference -ExclusionPath "C:\Program Files\Remove-Edge\Remove-Edge.exe"
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" -O "C:\Program Files\Remove-Edge\Remove-Edge.exe" "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "C:\Program Files\Remove-Edge\Remove-Edge.exe" "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe"
     } else {
         Invoke-Webrequest -Uri "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe" -OutFile "C:\Program Files\Remove-Edge\Remove-Edge.exe"
     }
@@ -101,11 +100,31 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 $YESORNO = Read-Host "Do you want to install MSEdge Redirect?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\Downloads\MSEdgeRedirect.exe" "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\MSEdgeRedirect.exe" "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe"
     } else {
         Invoke-WebRequest -Uri "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe" -OutFile "$HOME\Downloads\MSEdgeRedirect.exe"
     }
     Start-Process "$HOME\Downloads\MSEdgeRedirect.exe"
+}
+$YESORNO = Read-Host "Do you want to install 7-Zip? (Y/n): "
+if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+    if ($USE_WGET -eq "1") {
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\7z2501-x64.exe" "https://7-zip.org/a/7z2501-x64.exe"
+    } else {
+        Invoke-WebRequest -Uri "https://7-zip.org/a/7z2501-x64.exe" -OutFile "$HOME\Downloads\7z2501-x64.exe"
+    }
+    Start-Process "$HOME\Downloads\7z2501-x64.exe"
+}
+
+$YESORNO = Read-Host "Do you want to install AIM Tookit? (It's successor of ImDisk Toolkit.)(Y/n): "
+if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+    if ($USE_WGET -eq "1") {
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\AIMtk.zip" "https://twds.dl.sourceforge.net/project/aim-toolkit/20251223/AIMtk.zip?viasf=1"
+    } else {
+        Invoke-WebRequest -Uri "https://twds.dl.sourceforge.net/project/aim-toolkit/20251223/AIMtk.zip?viasf=1" -OutFile "$HOME\Downloads\AIMtk.zip"
+    }
+    Expand-Archive "$HOME\Downloads\AIMtk.zip" -DestinationPath "$HOME\Downloads\AIMtk"
+    Start-Process "$HOME\Downloads\AIMtk\AIMtk20251223\install.bat"
 }
 
 #$YESORNO = Read-Host "Do you want to disable the window rounded corners?(Y/n): "
@@ -196,7 +215,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     Add-MpPreference -ExclusionPath "C:\Windows\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy"
     Add-MpPreference -ExclusionPath "C:\Windows\SystemApps\ShellExperienceHost_cw5n1h2txyewy"
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\Downloads\ep_setup.exe" "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\ep_setup.exe" "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe"
     } else {
         Invoke-WebRequest -Uri "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe" -OutFile "$HOME\Downloads\ep_setup.exe"
     }

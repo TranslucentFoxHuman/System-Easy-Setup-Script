@@ -25,6 +25,8 @@ This script does common(?) initial setup for Windows 11. You can perform the fol
 	- Uninstall Microsoft Edge right now
 	- Schedule a task to uninstall Microsoft Edge at every startup.
 - Install [MSEdge-Redirect](https://github.com/rcmaehl/MSEdgeRedirect)
+- Install [7-zip](https://7-zip.org).
+- Install [AIM Toolkit](https://sourceforge.net/projects/aim-toolkit/). It is successor of ImDisk Toolkit.
 - Disable the Web search feature on taskbar
 - Get back the Windows 10-style Control Center
 - Get back these folders in start menu:
@@ -56,8 +58,10 @@ Do you absolutely never want to launch Microsoft Edge? Or perhaps you're using T
 [https://tlfoxhuman.net/ietools/how-to-open-ie.html](https://tlfoxhuman.net/ietools/how-to-open-ie.html)
 ## Features planned but not yet implemented
 ### 11Tweaks.ps1
-- [ ] Install 7-Zip
-- [ ] Install ImDisk drivers and toolkit
 
+## Not Planned Features
+### 11Tweaks.ps1
+- Support for ARM Devices:  
+  Windows on ARM devices are generally designed for Windows, and other operating systems are either completely non-functional or difficult to run on them. This encourages vendor lock‑in and, when Windows support is discontinued, it increases the amount of industrial waste. Such devices lack sustainability and future prospects, so I do not intend to support them.
 ## License
 These scripts are provided under the Public Domain.

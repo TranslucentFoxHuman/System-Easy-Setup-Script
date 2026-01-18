@@ -79,7 +79,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     New-Item -Force -Path "C:\Program Files\Remove-Edge" -ItemType "Directory"
     Add-MpPreference -ExclusionPath "C:\Program Files\Remove-Edge\Remove-Edge.exe"
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" -O "C:\Program Files\Remove-Edge\Remove-Edge.exe" "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "C:\Program Files\Remove-Edge\Remove-Edge.exe" "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe"
     } else {
         Invoke-Webrequest -Uri "https://github.com/ShadowWhisperer/Remove-MS-Edge/releases/latest/download/Remove-Edge.exe" -OutFile "C:\Program Files\Remove-Edge\Remove-Edge.exe"
     }
@@ -97,11 +97,32 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 $YESORNO = Read-Host "Do you want to install MSEdge Redirect?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\Downloads\MSEdgeRedirect.exe" "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\MSEdgeRedirect.exe" "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe"
     } else {
         Invoke-WebRequest -Uri "https://github.com/rcmaehl/MSEdgeRedirect/releases/latest/download/MSEdgeRedirect.exe" -OutFile "$HOME\Downloads\MSEdgeRedirect.exe"
     }
     Start-Process "$HOME\Downloads\MSEdgeRedirect.exe"
+}
+
+$YESORNO = Read-Host "Do you want to install 7-Zip? (Y/n): "
+if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+    if ($USE_WGET -eq "1") {
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\7z2501-x64.exe" "https://7-zip.org/a/7z2501-x64.exe"
+    } else {
+        Invoke-WebRequest -Uri "https://7-zip.org/a/7z2501-x64.exe" -OutFile "$HOME\Downloads\7z2501-x64.exe"
+    }
+    Start-Process "$HOME\Downloads\7z2501-x64.exe"
+}
+
+$YESORNO = Read-Host "Do you want to install AIM Tookit? (It's successor of ImDisk Toolkit.)(Y/n): "
+if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+    if ($USE_WGET -eq "1") {
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\AIMtk.zip" "https://twds.dl.sourceforge.net/project/aim-toolkit/20251223/AIMtk.zip?viasf=1"
+    } else {
+        Invoke-WebRequest -Uri "https://twds.dl.sourceforge.net/project/aim-toolkit/20251223/AIMtk.zip?viasf=1" -OutFile "$HOME\Downloads\AIMtk.zip"
+    }
+    Expand-Archive "$HOME\Downloads\AIMtk.zip" -DestinationPath "$HOME\Downloads\AIMtk"
+    Start-Process "$HOME\Downloads\AIMtk\AIMtk20251223\install.bat"
 }
 
 #$YESORNO = Read-Host "Do you want to disable the window rounded corners?(Y/n): "
@@ -192,7 +213,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     Add-MpPreference -ExclusionPath "C:\Windows\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy"
     Add-MpPreference -ExclusionPath "C:\Windows\SystemApps\ShellExperienceHost_cw5n1h2txyewy"
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\Downloads\ep_setup.exe" "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\ep_setup.exe" "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe"
     } else {
         Invoke-WebRequest -Uri "https://github.com/valinet/ExplorerPatcher/releases/latest/download/ep_setup.exe" -OutFile "$HOME\Downloads\ep_setup.exe"
     }
@@ -203,13 +224,13 @@ Write-Host "***This procedure was prepared exclusively for myself, the script de
 $YESORNO = Read-Host "Are you a Japanese and using SKK? Do you want to install CorvusSKK?(y/N): "
 if($YESORNO -eq "y" -or $YESORNO -eq "Y") {
     if ($USE_WGET -eq "1") {
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\Downloads\corvusskk-3.3.1.exe" "https://github.com/nathancorvussolis/corvusskk/releases/download/3.3.1/corvusskk-3.3.1.exe"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\Downloads\corvusskk-3.3.1.exe" "https://github.com/nathancorvussolis/corvusskk/releases/download/3.3.1/corvusskk-3.3.1.exe"
         New-Item -Force -Path "$HOME\AppData\Roaming\CorvusSKK\Dictionaries" -ItemType "Directory"
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.L" "http://openlab.jp/skk/skk/dic/SKK-JISYO.L"
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.jinmei" "http://openlab.jp/skk/skk/dic/SKK-JISYO.jinmei"
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.geo" "http://openlab.jp/skk/skk/dic/SKK-JISYO.geo"
-        & "C:\Program Files\Wget\wget.exe" -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.station" "http://openlab.jp/skk/skk/dic/SKK-JISYO.station"
-         & "C:\Program Files\Wget\wget.exe" -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.emoji-ja.utf8" "https://github.com/TranslucentFoxHuman/SKK-JISYO.emoji-ja/raw/master/SKK-JISYO.emoji-ja.utf8"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.L" "http://openlab.jp/skk/skk/dic/SKK-JISYO.L"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.jinmei" "http://openlab.jp/skk/skk/dic/SKK-JISYO.jinmei"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.geo" "http://openlab.jp/skk/skk/dic/SKK-JISYO.geo"
+        & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.station" "http://openlab.jp/skk/skk/dic/SKK-JISYO.station"
+         & "C:\Program Files\Wget\wget.exe" --no-check-certificate -O "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.emoji-ja.utf8" "https://github.com/TranslucentFoxHuman/SKK-JISYO.emoji-ja/raw/master/SKK-JISYO.emoji-ja.utf8"
     } else {
         Invoke-WebRequest -Uri "https://github.com/nathancorvussolis/corvusskk/releases/download/3.3.1/corvusskk-3.3.1.exe" -OutFile "$HOME\Downloads\corvusskk-3.3.1.exe"
         New-Item -Force -Path "$HOME\AppData\Roaming\CorvusSKK\Dictionaries" -ItemType "Directory"
