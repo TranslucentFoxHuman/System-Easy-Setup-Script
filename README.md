@@ -31,6 +31,7 @@ This script does common(?) initial setup for Windows 11. You can perform the fol
 	- Accessories
 	- Administrative Tools
 	- System Tools
+- Schedule a task to restore "Accessories", "Administrative Tools", "System Tools" folder at start up.
 - Install [ExplorerPatcher](https://github.com/valinet/ExplorerPatcher)
 
 ## 11Tweaks-TlFox.ps1
