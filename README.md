@@ -48,6 +48,13 @@ This script differs from 11Tweaks.ps1 in the following ways:
 
 ## How to use
 ### 11Tweaks.ps1
+## Method 1 (recommended)
+By to creating a small download script that doesn't use non‑ASCII characters, you can now easily download and run scripts! Just run the command below.
+```
+irm https://easysetup.tlfoxhuman.net/win11 | iex
+```
+
+## Method 2
 Download this script. [https://github.com/TranslucentFoxHuman/System-Easy-Setup-Script/raw/refs/heads/main/11Tweaks.ps1](https://github.com/TranslucentFoxHuman/System-Easy-Setup-Script/raw/refs/heads/main/11Tweaks.ps1)  
 Open Windows PowerShell as Administrator, then run this command:
 ```
@@ -55,7 +62,7 @@ powershell -executionpolicy bypass <path to 11Tweaks.ps1>
 ```
 When you run this, a description of what will be executed sequentially will be displayed, along with a prompt asking whether to proceed with the execution. You should follow the prompt and specify whether to execute by entering Y or N.
 
-Please do not run it in a format like `irm <script URL> | iex`. This script contains non-ASCII strings for Japanese support, and executing it in that way causes them to be unrecognizable, resulting in garbled text and script errors. I tried all the encodings - Unicode, UTF-8, and Shift-JIS (also known as ANSI) - but the problem persists. It is probably a PowerShell bug.
+Please do not run it in a format like `irm <script URL> | iex`. This script contains non-ASCII strings for Japanese support, and executing it in that way causes them to be unrecognizable, resulting in garbled text and script errors. I tried all the encodings - Unicode, UTF-8, and Shift-JIS (also known as ANSI) - but the problem persists. It is probably a PowerShell bug. If you want to run this script easier way, please follow "Method 1".
 
 Do you absolutely never want to launch Microsoft Edge? Or perhaps you're using Tiny 11 or a similar environment and don't have a browser? It's hidden, but there is Internet Explorer! Using the method on the following page, you can open Internet Explorer. Open IE and use it to download this script:
 [https://tlfoxhuman.net/ietools/how-to-open-ie.html](https://tlfoxhuman.net/ietools/how-to-open-ie.html)
@@ -67,4 +74,8 @@ Do you absolutely never want to launch Microsoft Edge? Or perhaps you're using T
 - Support for ARM Devices:  
   Windows on ARM devices are generally designed for Windows, and other operating systems are either completely non-functional or difficult to run on them. This encourages vendor lock‑in and, when Windows support is discontinued, it increases the amount of industrial waste. Such devices lack sustainability and future prospects, so I do not intend to support them.
 ## License
-These scripts are provided under the Public Domain.
+MIT License
+
+Originally this script started as a small one that made only a few simple changes. However, since its features have recently expanded, I decided that it should be protected by a license, so it will be changed from the public domain to the MIT license.
+
+The last version that was in the public domain was commit a0ec0ba3364c1db6c3b4e4d525a8ee02f1620040.

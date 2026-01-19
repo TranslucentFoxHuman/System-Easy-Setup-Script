@@ -1,6 +1,6 @@
 ﻿# Windows 11 Easy Setup Script
-# 
-# This script is provided under the public domain.
+# Copyright (C) 2026 TlFoxhuman
+# This script is provided under the MIT License. For more information, please see LICESE file.
 
 
 # TODO:
