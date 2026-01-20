@@ -168,6 +168,10 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Center" -Force
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Center" -PropertyType "DWORD" -Value 1 -Name "UseLiteLayout" -Force
 }
+$YESORNO = Read-Host "Do you want to disable fast startup(Y/n)?"
+if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+	Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power' -Name HiberbootEnabled -Value 0
+}
 
 # Move Startmenu folders
 $YESORNO = Read-Host "Do you want to get back the Windows Tools folder in start menu?(Y/n): "
