@@ -20,7 +20,6 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 $USE_WGET = "0"
 $CURL_EXEC="C:\Program Files\curl\bin\curl.exe"
 
-
 Write-Host "Welcome to Windows 11 Easy Setup Script!"
 
 #Remove unwanted Appx Packages.
