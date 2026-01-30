@@ -73,6 +73,11 @@ Do you absolutely never want to launch Microsoft Edge? Or perhaps you're using T
 ### 11Tweaks.ps1
 - Support for ARM Devices:  
   Windows on ARM devices are generally designed for Windows, and other operating systems are either completely non-functional or difficult to run on them. This encourages vendor lock‑in and, when Windows support is discontinued, it increases the amount of industrial waste. Such devices lack sustainability and future prospects, so I do not intend to support them.
+- Support for anti‑virus software other than Windows Defender  
+  Several anti‑virus programs including Windows Defender, mistakenly flag parts of the software downloaded by this tool (such as `Remove-MSEdge.exe`) as malware. To counter this false positive, the tool automatically registers those components as exceptions in Windows Defender. However, there is a wide variety of anti‑virus products available today, each with a  different method for adding exceptions. Some of these programs are paid and may be difficult to obtain.  
+  Additionally, certain anti‑virus solutions can interfere with the proper functioning of this tool. For example, in environments where Avast is installed, downloads performed with `curl` have been observed to fail due to a chain‑certificate error.  
+  Implementing workarounds for exception handling and interference across all of these numerous anti‑virus products is extremely challenging. Consequently, this tool supports only the most widely used and generic Windows Defender. If you are using an anti‑virus product other than Windows Defender, review the script’s code, locate the line that executes `Add-MpPreference`, and manually add the corresponding exception to your own anti‑virus software. Alternatively, run this script first and then install the anti‑virus product you wish to use.
+
 ## License
 MIT License
 
