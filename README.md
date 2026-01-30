@@ -32,6 +32,7 @@ This script does common(?) initial setup for Windows 11. You can perform the fol
 - Install [AIM Toolkit](https://sourceforge.net/projects/aim-toolkit/). It is successor of ImDisk Toolkit.
 - Disable the Web search feature on taskbar
 - Get back the Windows 10-style Control Center
+- Disable fast startup
 - Get back these folders in start menu:
 	- Accessories
 	- Administrative Tools

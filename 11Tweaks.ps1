@@ -20,7 +20,6 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 $USE_WGET = "0"
 $CURL_EXEC="C:\Program Files\curl\bin\curl.exe"
 
-
 Write-Host "Welcome to Windows 11 Easy Setup Script!"
 
 #Remove unwanted Appx Packages.
@@ -167,6 +166,10 @@ $YESORNO = Read-Host "Do you want to get back the Windows 10-style Control Cente
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Center" -Force
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Control Center" -PropertyType "DWORD" -Value 1 -Name "UseLiteLayout" -Force
+}
+$YESORNO = Read-Host "Do you want to disable fast startup(Y/n)?"
+if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+	Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power' -Name HiberbootEnabled -Value 0
 }
 
 # Move Startmenu folders
