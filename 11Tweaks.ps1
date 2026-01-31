@@ -56,22 +56,29 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 	$PATH_OLD = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).Path
     $PATH_NEW = $PATH_OLD + ';C:\Program Files\curl\bin'
     Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' -Name PATH -Value $PATH_NEW
-    if (Test-Path -Path "$PSHOME\Microsoft.PowerShell_profile.ps1") {
-        $psprofile = Get-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1"
-        $found_rmcurl="0"
-        foreach ($line in $psprofile) {
-            if ($line -match "Remove-Item alias:curl") {
-                $found_rmcurl="1"
-                break
-            }
+    # Allsigned, Restricted, Default, Undefined(maybe?) blocks script execution
+    $YESORNO = Read-Host "Do you want to disable `"curl`" alias of Invoke-WebRequest? This sets the ExecutionPolicy to `"RemoteSigned`" if the current Executionpolicy is `"Allsigned`", `"Restricted`", `"Default`" or `"Undefined`". (Y/n)"
+    if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+        if ($policy -eq 'Restricted' -or $policy -eq 'Undefined' -or $policy -eq 'AllSigned' -or $policy -eq 'Default') {
+            Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
         }
-        if ($found_rmcurl -ne "1") {
+        if (Test-Path -Path "$PSHOME\Microsoft.PowerShell_profile.ps1") {
+            $psprofile = Get-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1"
+            $found_rmcurl="0"
+            foreach ($line in $psprofile) {
+                if ($line -match "Remove-Item alias:curl") {
+                    $found_rmcurl="1"
+                    break
+                }  
+            }
+            if ($found_rmcurl -ne "1") {
+                Add-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1" -Value "Remove-Item alias:curl"
+                Remove-Item alias:curl
+            }
+        } else {
             Add-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1" -Value "Remove-Item alias:curl"
             Remove-Item alias:curl
         }
-    } else {
-        Add-Content -Path "$PSHOME\Microsoft.PowerShell_profile.ps1" -Value "Remove-Item alias:curl"
-        Remove-Item alias:curl
     }
 
     $YESORNO = Read-Host "Do you want to use the real curl for faster download?(Y/n): "
