@@ -59,7 +59,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     # Allsigned, Restricted, Default, Undefined(maybe?) blocks script execution
     $YESORNO = Read-Host "Do you want to disable `"curl`" alias of Invoke-WebRequest? This sets the ExecutionPolicy to `"RemoteSigned`" if the current Executionpolicy is `"Allsigned`", `"Restricted`", `"Default`" or `"Undefined`". (Y/n)"
     if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
-        $policy = Get-ExecutionPolicy
+        $policy = Get-ExecutionPolicy -Scope LocalMachine
         if ($policy -eq 'Restricted' -or $policy -eq 'Undefined' -or $policy -eq 'AllSigned' -or $policy -eq 'Default') {
             Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
         }
