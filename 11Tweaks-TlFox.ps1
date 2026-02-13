@@ -98,10 +98,10 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     $USE_WINGET = "1"
 }
 
-$YESORNO = Read-Host "Do you want to Download Librewolf?(Y/n): "
+$YESORNO = Read-Host "Do you want to Download LibreWolf?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     if ($USE_WINGET -ne "1") {
-        Write-Host "Librewolf 147.0.3-2 will downloaded. Please run Librewolf WinUpdater after installing this."
+        Write-Host "LibreWolf 147.0.3-2 will downloaded. Please run LibreWolf WinUpdater after installing this."
     }
     $LIBREWOLF_URL="https://codeberg.org/api/packages/librewolf/generic/librewolf/147.0.3-2/librewolf-147.0.3-2-windows-x86_64-setup.exe"
     $LIBREWOLF_EXE="librewolf-147.0.3-2-windows-x86_64-setup.exe"
