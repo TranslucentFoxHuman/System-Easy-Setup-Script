@@ -93,15 +93,42 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     }
 }
 
+$YESORNO = Read-Host "Do you want to use winget to download the latest version if available?(Y/n): "
+if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+    $USE_WINGET = "1"
+}
+
 $YESORNO = Read-Host "Do you want to Download Librewolf?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
-    Write-Host "Librewolf 144.0-1 will downloaded. Please run Librewolf WinUpdater after installing this."
-    if ($USE_WGET -eq "1") {
-        & $CURL_EXEC -L -o "$HOME\Downloads\librewolf-144.0-1-windows-x86_64-setup.exe" "https://gitlab.com/api/v4/projects/44042130/packages/generic/librewolf/144.0-1/librewolf-144.0-1-windows-x86_64-setup.exe"
-    } else {
-        Invoke-WebRequest -UseBasicParsing -Uri "https://gitlab.com/api/v4/projects/44042130/packages/generic/librewolf/144.0-1/librewolf-144.0-1-windows-x86_64-setup.exe" -OutFile "$HOME\Downloads\librewolf-144.0-1-windows-x86_64-setup.exe"
+    if ($USE_WINGET -ne "1") {
+        Write-Host "Librewolf 147.0.3-2 will downloaded. Please run Librewolf WinUpdater after installing this."
     }
-    Start-Process "$HOME\Downloads\librewolf-144.0-1-windows-x86_64-setup.exe"
+    $LIBREWOLF_URL="https://codeberg.org/api/packages/librewolf/generic/librewolf/147.0.3-2/librewolf-147.0.3-2-windows-x86_64-setup.exe"
+    $LIBREWOLF_EXE="librewolf-147.0.3-2-windows-x86_64-setup.exe"
+    if ($USE_WINGET -eq "1") {
+        & winget install LibreWolf.LibreWolf --source winget
+        if ($USE_WGET -eq "1") {
+            & $CURL_EXEC -L -o "$env:Temp\librewolf-winupd.zip" "https://codeberg.org/ltguillaume/librewolf-winupdater/releases/download/1.12.1/LibreWolf-WinUpdater_1.12.1.zip"
+        } else {
+            Invoke-WebRequest -UseBasicParsing -Uri "https://codeberg.org/ltguillaume/librewolf-winupdater/releases/download/1.12.1/LibreWolf-WinUpdater_1.12.1.zip" -OutFile "$env:Temp\librewolf-winupd.zip"
+        }
+        New-Item -Force -Path "$env:TEMP\librewolf-winupd" -ItemType Directory
+        Expand-Archive "$env:Temp\librewolf-winupd.zip" -DestinationPath "$env:Temp\librewolf-winupd"
+        Copy-Item -Path "$env:Temp\librewolf-winupd\*" -Destination "C:\Program Files\LibreWolf" -Force -Recurse
+        $WSCShell = New-Object -ComObject WScript.Shell
+        $Shortcut = $WSCShell.CreateShortcut("C:\ProgramData\Microsoft\Windows\Start Menu\Programs\LibreWolf\LibreWolf WinUpdater.lnk")
+        $Shortcut.TargetPath = "C:\Program Files\LibreWolf\LibreWolf-WinUpdater.exe"
+        $Shortcut.Save()
+        Remove-Item -Path "$env:Temp\librewolf-winupd.zip" -Force -Recurse
+        Remove-Item -Path "$env:Temp\librewolf-winupd.zip" -Force -Recurse
+    } elseif ($USE_WGET -eq "1") {
+        & $CURL_EXEC -L -o "$HOME\Downloads\$LIBREWOLF_EXE" "$LIBREWOLF_URL"
+        Start-Process "$HOME\Downloads\$LIBREWOLF_EXE"
+    } else {
+        Invoke-WebRequest -UseBasicParsing -Uri "$LIBREWOLF_URL" -OutFile "$HOME\Downloads\$LIBREWOLF_EXE"
+        Start-Process "$HOME\Downloads\$LIBREWOLF_EXE"
+    }
+    
 }
 
 $YESORNO = Read-Host "Do you want to install Remove-MSEdge?(Y/n): "
@@ -133,15 +160,17 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     }
     Start-Process "$HOME\Downloads\MSEdgeRedirect.exe"
 }
-
 $YESORNO = Read-Host "Do you want to install 7-Zip? (Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
-    if ($USE_WGET -eq "1") {
+    if ($USE_WINGET -eq "1") {
+        & winget install 7zip.7zip --source winget
+    } elseif ($USE_WGET -eq "1") {
         & $CURL_EXEC -L -o "$HOME\Downloads\7z2501-x64.exe" "https://7-zip.org/a/7z2501-x64.exe"
+        Start-Process "$HOME\Downloads\7z2501-x64.exe"
     } else {
         Invoke-WebRequest -Uri "https://7-zip.org/a/7z2501-x64.exe" -OutFile "$HOME\Downloads\7z2501-x64.exe"
-    }
-    Start-Process "$HOME\Downloads\7z2501-x64.exe"
+        Start-Process "$HOME\Downloads\7z2501-x64.exe"
+    } 
 }
 
 $YESORNO = Read-Host "Do you want to install AIM Tookit? (It's successor of ImDisk Toolkit.)(Y/n): "
@@ -257,16 +286,21 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 Write-Host "***This procedure was prepared exclusively for myself, the script developer. Most users don't need this procedure.***"
 $YESORNO = Read-Host "Are you a Japanese and using SKK? Do you want to install CorvusSKK?(y/N): "
 if($YESORNO -eq "y" -or $YESORNO -eq "Y") {
-    if ($USE_WGET -eq "1") {
+    if ($USE_WINGET -eq "1") {
+        & winget install nathancorvussolis.corvusskk --source winget
+    } elseif ($USE_WGET -eq "1") {
         & $CURL_EXEC -L -o "$HOME\Downloads\corvusskk-3.3.1.exe" "https://github.com/nathancorvussolis/corvusskk/releases/download/3.3.1/corvusskk-3.3.1.exe"
+    } else {
+        Invoke-WebRequest -Uri "https://github.com/nathancorvussolis/corvusskk/releases/download/3.3.1/corvusskk-3.3.1.exe" -OutFile "$HOME\Downloads\corvusskk-3.3.1.exe"
+    }
+    if ($USE_WGET -eq "1") {
         New-Item -Force -Path "$HOME\AppData\Roaming\CorvusSKK\Dictionaries" -ItemType "Directory"
         & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.L" "http://openlab.jp/skk/skk/dic/SKK-JISYO.L"
         & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.jinmei" "http://openlab.jp/skk/skk/dic/SKK-JISYO.jinmei"
         & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.geo" "http://openlab.jp/skk/skk/dic/SKK-JISYO.geo"
         & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.station" "http://openlab.jp/skk/skk/dic/SKK-JISYO.station"
-         & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.emoji-ja.utf8" "https://github.com/TranslucentFoxHuman/SKK-JISYO.emoji-ja/raw/master/SKK-JISYO.emoji-ja.utf8"
+        & $CURL_EXEC -L -o "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.emoji-ja.utf8" "https://github.com/TranslucentFoxHuman/SKK-JISYO.emoji-ja/raw/master/SKK-JISYO.emoji-ja.utf8"
     } else {
-        Invoke-WebRequest -Uri "https://github.com/nathancorvussolis/corvusskk/releases/download/3.3.1/corvusskk-3.3.1.exe" -OutFile "$HOME\Downloads\corvusskk-3.3.1.exe"
         New-Item -Force -Path "$HOME\AppData\Roaming\CorvusSKK\Dictionaries" -ItemType "Directory"
         Invoke-WebRequest -Uri "http://openlab.jp/skk/skk/dic/SKK-JISYO.L" -OutFile "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.L"
         Invoke-WebRequest -Uri "http://openlab.jp/skk/skk/dic/SKK-JISYO.jinmei" -OutFile "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.jinmei"
@@ -274,5 +308,7 @@ if($YESORNO -eq "y" -or $YESORNO -eq "Y") {
         Invoke-WebRequest -Uri "http://openlab.jp/skk/skk/dic/SKK-JISYO.station" -OutFile "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.station"
         Invoke-WebRequest -Uri "https://github.com/TranslucentFoxHuman/SKK-JISYO.emoji-ja/raw/master/SKK-JISYO.emoji-ja.utf8" -OutFile "$HOME\AppData\Roaming\CorvusSKK\Dictionaries\SKK-JISYO.emoji-ja.utf8"
     }
-    Start-Process "$HOME\Downloads\corvusskk-3.3.1.exe"
+    if ($USE_WINGET -ne "1") {
+        Start-Process "$HOME\Downloads\corvusskk-3.3.1.exe"
+    }
 }

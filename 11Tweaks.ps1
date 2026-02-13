@@ -18,6 +18,7 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 # Global variable
 $USE_WGET = "0"
+$USE_WINGET = "0"
 $CURL_EXEC="C:\Program Files\curl\bin\curl.exe"
 
 Write-Host "Welcome to Windows 11 Easy Setup Script!"
@@ -93,6 +94,11 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     }
 }
 
+$YESORNO = Read-Host "Do you want to use winget to download the latest version if available?(Y/n): "
+if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+    $USE_WINGET = "1"
+}
+
 $YESORNO = Read-Host "Do you want to download Firefox?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     if ((Get-UICulture).Name -eq "ja-JP") {
@@ -138,12 +144,15 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 }
 $YESORNO = Read-Host "Do you want to install 7-Zip? (Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
-    if ($USE_WGET -eq "1") {
+    if ($USE_WINGET -eq "1") {
+        & winget install 7zip.7zip --source winget
+    } elseif ($USE_WGET -eq "1") {
         & $CURL_EXEC -L -o "$HOME\Downloads\7z2501-x64.exe" "https://7-zip.org/a/7z2501-x64.exe"
+        Start-Process "$HOME\Downloads\7z2501-x64.exe"
     } else {
         Invoke-WebRequest -Uri "https://7-zip.org/a/7z2501-x64.exe" -OutFile "$HOME\Downloads\7z2501-x64.exe"
-    }
-    Start-Process "$HOME\Downloads\7z2501-x64.exe"
+        Start-Process "$HOME\Downloads\7z2501-x64.exe"
+    } 
 }
 
 $YESORNO = Read-Host "Do you want to install AIM Tookit? (It's successor of ImDisk Toolkit.)(Y/n): "
