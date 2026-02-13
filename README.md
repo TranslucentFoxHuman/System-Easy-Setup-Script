@@ -18,6 +18,7 @@ This script does common(?) initial setup for Windows 11. You can perform the fol
 - Download and install the official version of curl.
 	- Disable the utterly foolish PowerShell curl alias so that the official curl is executed.
 - Use curl for downloading instead of the slow built‑in PowerShell Invoke-WebRequest.
+- Use winget to download/install to get latest version for some apps (e.g. 7-Zip)
 - Uninstall these:
 	- Teams
 	- Outlook
