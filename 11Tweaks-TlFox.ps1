@@ -120,7 +120,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
         $Shortcut.TargetPath = "C:\Program Files\LibreWolf\LibreWolf-WinUpdater.exe"
         $Shortcut.Save()
         Remove-Item -Path "$env:Temp\librewolf-winupd.zip" -Force -Recurse
-        Remove-Item -Path "$env:Temp\librewolf-winupd.zip" -Force -Recurse
+        Remove-Item -Path "$env:Temp\librewolf-winupd" -Force -Recurse
     } elseif ($USE_WGET -eq "1") {
         & $CURL_EXEC -L -o "$HOME\Downloads\$LIBREWOLF_EXE" "$LIBREWOLF_URL"
         Start-Process "$HOME\Downloads\$LIBREWOLF_EXE"
