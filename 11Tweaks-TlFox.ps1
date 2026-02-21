@@ -2,15 +2,6 @@
 # Copyright (C) 2026 TlFoxhuman
 # This script is provided under the MIT License. For more information, please see LICESE file.
 
-
-# TODO:
-# -[x] Add Toggle Rounded Corners 
-# -[x] Rename Windows Tools Startmenu folder
-# -[x] Apply LocalizedResourceName
-# -[x] Add license text
-
-
-
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Host "Please run as Administrator."
     exit

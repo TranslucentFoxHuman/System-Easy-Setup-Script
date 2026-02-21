@@ -2,15 +2,6 @@
 # Copyright (C) 2026 TlFoxhuman
 # This script is provided under the MIT License. For more information, please see LICESE file.
 
-
-# TODO:
-# -[x] Add Toggle Rounded Corners 
-# -[x] Rename Windows Tools Startmenu folder
-# -[x] Apply LocalizedResourceName
-# -[x] Add license text
-
-
-
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Host "Please run as Administrator."
     exit
@@ -214,7 +205,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     $fobj.Attributes = "System"
     $fobj = Get-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTACCESS\desktop.ini"
     $fobj.Attributes = "System", "Hidden"
-    
+
     #System Tools
     New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL" -ItemType "Directory" -Force
     Copy-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\System Tools\*.lnk" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL" -Force -Recurse
@@ -230,7 +221,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     $fobj.Attributes = "System"
     $fobj = Get-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTSYSTOOL/desktop.ini"
     $fobj.Attributes = "System", "Hidden"
-    
+
     # Administrative tools
     New-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTADMTOOL" -ItemType "Directory" -Force
     Copy-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools\*.lnk" -Destination "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\$DESTADMTOOL" -Force -Recurse
