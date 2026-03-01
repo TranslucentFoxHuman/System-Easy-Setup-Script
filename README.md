@@ -41,12 +41,35 @@ This script does common(?) initial setup for Windows 11. You can perform the fol
 - Schedule a task to restore "Accessories", "Administrative Tools", "System Tools" folder at start up.
 - Install [ExplorerPatcher](https://github.com/valinet/ExplorerPatcher)
 
-## 11Tweaks-TlFox.ps1
+### 11Tweaks-TlFox.ps1
 This script is based on 11Tweaks.ps1 and is customized for the developer, TlFoxHuman. It is not needed for most users, but it is stored in this repository for own development.
   
 This script differs from 11Tweaks.ps1 in the following ways:
 - Install [LibreWolf](https://librewolf.net) instead of Firefox
 - Install [CorvusSKK](https://github.com/nathancorvussolis/corvusskk), the Japanese Input Method
+
+### debian.bash
+This was originally a script I used to set up Debian‑based GNU/Linux systems, including Ubuntu.  
+Because I wrote it for my own use, it isn't very generic and probably won't meet many other users' needs.
+
+The script behaves differently depending on whether it is launched as root or as a normal user.
+
+When started as root, it provides the following features:
+- Adds the official repository for Firefox or LibreWolf (you can choose whichever browser you prefer) instead of the distribution's default and installs it.
+- Adds an entry to the application list that launches the chosen browser in a private window.
+- Installs Fcitx5 and SKK. This is meant for me, a Japanese speaker who uses SKK as an input method.
+- Installs Flatpak and adds the Flathub repository.
+- Enables NumLock on the TTY.
+- Adds a system‑wide script that runs `sudo apt update`, `sudo apt upgrade -y`, `sudo apt autoremove -y`, and `flatpak update -y` with a single command. The script can be invoked with the `update` command; besides performing a bulk update, it can automatically reboot after updating with the `-r` option, or shut down with the `-s` option. It's very handy, so give it a try.
+- Enables ZRAM. By default it sets up an 8 GB ZRAM disk for swap and mounts another 8 GB ZRAM area as `/tmp`.
+  - The ZRAM configuration file can be adjusted.
+  - By default, only root can write to the ZRAM disk immediately after initialization, so a service is added to automatically set the correct permissions.
+- Sets up [ydotool](https://github.com/ReimuNotMoe/ydotool).
+  - Configures `ydotoold` to start as a daemon on boot. At this time, a group named `ydotool` is created so that `ydotoold` can be used.
+  - Specific users can be added to the `ydotool` group.
+
+When started as a normal user, the following feature is available:
+- Adds a custom input rule to SKK that converts text with the conversion key and disables `区点([MM]KKTT)`. In the input method settings for SKK, set the input style to "custom" to enable it. This is probably only useful to me.
 
 ## How to use
 ### 11Tweaks.ps1
