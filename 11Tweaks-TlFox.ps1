@@ -198,6 +198,19 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 	Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Power' -Name HiberbootEnabled -Value 0
 }
 
+# Task scheduling
+$YESORNO = Read-Host "Do you want to sync the system time at startup?(Y/n): "
+if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
+    $TSActions = (New-ScheduledTaskAction -Execute "C:\Windows\System32\sc.exe" -Argument "config W32Time start=auto"),
+                 (New-ScheduledTaskAction -Execute "C:\Windows\System32\sc.exe" -Argument "start W32Time"),
+                 (New-ScheduledTaskAction -Execute "C:\Windows\System32\w32tm.exe" -Argument "/resync")
+    $TSTrigger = New-ScheduledTaskTrigger -AtStartup
+    $TSSettings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -StartWhenAvailable -RestartCount 5 -RestartInterval (New-TimeSpan -Minutes 1)
+    $TSPrincipal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -RunLevel Highest
+    $TSTask = New-ScheduledTask -Action $TSActions -Principal $TSPrincipal -Trigger $TSTrigger -Settings $TSSettings
+    Register-ScheduledTask "Automatic time synchronization" -InputObject $TSTask
+}
+
 # Move Startmenu folders
 $YESORNO = Read-Host "Do you want to get back the Administrative Tools folder in start menu?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
