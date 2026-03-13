@@ -61,7 +61,7 @@ When started as root, it provides the following features:
 - Installs Flatpak and adds the Flathub repository.
 - Enables NumLock on the TTY.
 - Adds a system‑wide script that runs `sudo apt update`, `sudo apt upgrade -y`, `sudo apt autoremove -y`, and `flatpak update -y` with a single command. The script can be invoked with the `update` command; besides performing a bulk update, it can automatically reboot after updating with the `-r` option, or shut down with the `-s` option. It's very handy, so give it a try.
-- Enables ZRAM. By default it sets up an 8 GB ZRAM disk for swap and mounts another 8 GB ZRAM area as `/tmp`.
+- Enables ZRAM. By default it sets up an 8 GB ZRAM disk for swap and mounts another 8 GB ZRAM area as `/ramdisk`.
   - The ZRAM configuration file can be adjusted.
   - By default, only root can write to the ZRAM disk immediately after initialization, so a service is added to automatically set the correct permissions.
 - Sets up [ydotool](https://github.com/ReimuNotMoe/ydotool).
@@ -73,13 +73,13 @@ When started as a normal user, the following feature is available:
 
 ## How to use
 ### 11Tweaks.ps1
-## Method 1 (recommended)
+#### Method 1 (recommended)
 By to creating a small download script that doesn't use non‑ASCII characters, you can now easily download and run scripts! Just run the command below.
 ```
 irm https://easysetup.tlfoxhuman.net/win11 | iex
 ```
 
-## Method 2
+#### Method 2
 Download this script. [https://github.com/TranslucentFoxHuman/System-Easy-Setup-Script/raw/refs/heads/main/11Tweaks.ps1](https://github.com/TranslucentFoxHuman/System-Easy-Setup-Script/raw/refs/heads/main/11Tweaks.ps1)  
 Open Windows PowerShell as Administrator, then run this command:
 ```
