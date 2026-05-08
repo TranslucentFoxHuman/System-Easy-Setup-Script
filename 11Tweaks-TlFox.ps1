@@ -40,8 +40,8 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N" -and $YESORNO -ne "y" -and $YESORNO -
 $YESORNO = Read-Host "Do you want to download the real curl?(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 	New-Item -Force -Path "$env:TEMP\curl" -ItemType "Directory"
-	Invoke-Webrequest -Uri "https://curl.se/windows/latest.cgi?p=win64-mingw.zip" -OutFile "$HOME\Downloads\curl.zip"
-	Expand-Archive "$HOME\Downloads\curl.zip" -DestinationPath "$env:TEMP\curl"
+	Invoke-Webrequest -Uri "https://curl.se/windows/latest.cgi?p=win64-mingw.zip" -OutFile "$env:TEMP\curl\curl.zip"
+	Expand-Archive "$env:TEMP\curl\curl.zip" -DestinationPath "$env:TEMP\curl"
 	Rename-Item (Get-ChildItem -Directory "$env:TEMP\curl\curl*" | Select-Object -First 1) "curl"
 	Copy-Item -Path "$env:TEMP\curl\curl" -Destination "C:\Program Files\" -Force -Recurse
 	Remove-Item -Path "$env:TEMP\curl" -Recurse -Force
