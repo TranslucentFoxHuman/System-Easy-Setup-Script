@@ -167,9 +167,9 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
 $YESORNO = Read-Host "Do you want to install AIM Tookit? (It's successor of ImDisk Toolkit.)(Y/n): "
 if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
     if ($USE_WGET -eq "1") {
-        & $CURL_EXEC -L -o "$HOME\Downloads\AIMtk.zip" "https://twds.dl.sourceforge.net/project/aim-toolkit/20251223/AIMtk.zip?viasf=1"
+        & $CURL_EXEC -L -o "$HOME\Downloads\AIMtk.zip" "https://twds.dl.sourceforge.net/project/aim-toolkit/20260420/AIMtk.zip"
     } else {
-        Invoke-WebRequest -Uri "https://twds.dl.sourceforge.net/project/aim-toolkit/20251223/AIMtk.zip?viasf=1" -OutFile "$HOME\Downloads\AIMtk.zip"
+        Invoke-WebRequest -Uri "https://twds.dl.sourceforge.net/project/aim-toolkit/20260420/AIMtk.zip" -OutFile "$HOME\Downloads\AIMtk.zip"
     }
     Expand-Archive "$HOME\Downloads\AIMtk.zip" -DestinationPath "$HOME\Downloads\AIMtk"
     Start-Process "$HOME\Downloads\AIMtk\AIMtk20251223\install.bat"
