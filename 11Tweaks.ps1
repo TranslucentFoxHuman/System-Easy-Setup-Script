@@ -154,7 +154,7 @@ if ($YESORNO -ne "n" -and $YESORNO -ne "N") {
         Invoke-WebRequest -Uri "https://twds.dl.sourceforge.net/project/aim-toolkit/20260420/AIMtk.zip" -OutFile "$HOME\Downloads\AIMtk.zip"
     }
     Expand-Archive "$HOME\Downloads\AIMtk.zip" -DestinationPath "$HOME\Downloads\AIMtk"
-    Start-Process "$HOME\Downloads\AIMtk\AIMtk20251223\install.bat"
+    Start-Process "$HOME\Downloads\AIMtk\AIMtk20260420\install.bat"
 }
 
 #$YESORNO = Read-Host "Do you want to disable the window rounded corners?(Y/n): "
