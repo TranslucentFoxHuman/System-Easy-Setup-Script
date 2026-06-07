@@ -132,9 +132,25 @@ install_font_ipsj() {
     chmod -R 0755 /usr/local/share/fonts/truetype
 }
 
+install_msedit() {
+    mkdir -p /tmp/gnusetup
+    mkdir -p /usr/local/bin
+    curl -L https://github.com/microsoft/edit/releases/download/v2.0.0/edit-2.0.0-x86_64-linux-gnu.tar.gz -o /tmp/gnusetup/edit.tar.gz
+    gzip -dc /tmp/gnusetup/edit.tar.gz | tar -xf - -C /tmp/gnusetup
+    cp /tmp/gnusetup/edit /usr/local/bin/
+    sudo apt install -y libicu-dev
+    echo -e "\nDo you want to set Microsoft EDIT for default text editor?"
+    read -p "(Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        update-alternatives --install /usr/bin/editor editor /usr/local/bin/edit 50
+        update-alternatives --set editor /usr/local/bin/edit
+        echo -e "\nYou may need to run \"select-editor\" after setup to set EDIT as default editor.\n"
+    fi
+}
+
 # Main Program
 
-echo "Last update: 2026-06-08 02:18"
+echo "Last update: 2026-06-08 03:00"
 
 if [ $UID = "0" ]; then
     echo "Welcome to Debian GNU/Linux initial setup program!"
@@ -200,6 +216,12 @@ if [ $UID = "0" ]; then
     read -p "(Y/n): " CHK
     if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
         install_updater
+    fi
+    
+    echo -e "\nDo you want to install Microsoft EDIT text editor?"
+    read -p "(Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        install_msedit
     fi
 
     echo -e "\nDo you want to enable zramdisk? This tool creates 8GB swap and zramdisk. \nNote: This tool overrides the zram configuration file /etc/systemd/zram-generator.conf.  Please confirm that you have backed up the original configuration file."
