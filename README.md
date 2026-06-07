@@ -63,7 +63,7 @@ When started as root, it provides the following features:
 - Installs Flatpak and adds the Flathub repository.
 - Enables NumLock on the TTY.
 - Adds a system‑wide script that runs `sudo apt update`, `sudo apt upgrade -y`, `sudo apt autoremove -y`, and `flatpak update -y` with a single command. The script can be invoked with the `update` command; besides performing a bulk update, it can automatically reboot after updating with the `-r` option, or shut down with the `-s` option. It's very handy, so give it a try.
-- Install [Microsoft EDIT](https://github.com/microsoft/edit])text editor. If you've been using computers since the days of MS-DOS, this will make it feel very friendly. Otherwise, it is much more modern and easier to use than nano, vim, and emacs. Oops, I shouldn't have brought up this taboo topic:)
+- Install [Microsoft EDIT](https://github.com/microsoft/edit)text editor. If you've been using computers since the days of MS-DOS, this will make it feel very friendly. Otherwise, it is much more modern and easier to use than nano, vim, and emacs. Oops, I shouldn't have brought up this taboo topic:)
   - Set Microsoft EDIT as default text editor.
 - Enables ZRAM. By default it sets up an 8 GB ZRAM disk for swap and mounts another 8 GB ZRAM area as `/ramdisk`.
   - The ZRAM configuration file can be adjusted.
