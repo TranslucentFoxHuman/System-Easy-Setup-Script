@@ -108,6 +108,29 @@ if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
 fi
 }
 
+setup_cloudflare_dns() {
+    apt install -y systemd-resolved
+    sed -i "s/^#DNS=.*$/DNS=2606:4700:4700::1111 1.1.1.1/" /etc/systemd/resolved.conf
+    sed -i "s/^#FallbackDNS.*$/FallbackDNS=2606:4700:4700::1001 1.0.0.1/" /etc/systemd/resolved.conf
+    sed -i "s/^#DNSOverTLS.*$/DNSOverTLS=yes/" /etc/systemd/resolved.conf
+    systemctl restart systemd-resolved
+}
+
+set_systemd_timeout() {
+    sed -i "s/^#DefaultTimeoutStopSec.*$/DefaultTimeoutStopSec=20s/" /etc/systemd/system.conf
+    sed -i "s/^#DefaultTimeoutStopSec.*$/DefaultTimeoutStopSec=20s/" /etc/systemd/user.conf
+    systemctl daemon-reload
+}
+
+install_font_ipsj() {
+    mkdir -p /tmp/gnusetup
+    mkdir -p /usr/local/share/fonts/truetype
+    wget https://github.com/IBM/plex/releases/download/%40ibm%2Fplex-sans-jp%403.0.0/ibm-plex-sans-jp.zip -o /tmp/gnusetup/ibm-plex-sans-jp.zip
+    unzip -j /tmp/gnusetup/ibm-plex-sans-jp.zip ibm-plex-sans-jp/fonts/complete/ttf/hinted/*.ttf -d "/tmp/gnusetup/IBM Plex Sans JP"
+    cp "/tmp/gnusetup/IBM Plex Sans JP" /usr/local/share/fonts/truetype
+    chmod -R 0755 /usr/local/share/fonts/truetype
+}
+
 # Main Program
 
 if [ $UID = "0" ]; then
@@ -116,6 +139,18 @@ if [ $UID = "0" ]; then
     read -p "(y/N): " CHK
     if [[ "$CHK" != "y" && "$CHK" != "Y" ]] ; then
         exit
+    fi
+    
+    echo -e "\nDo you want to set DNS server as Cloudflare and enable DNS over TLS?"
+    read -p "(Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        setup_cloudflare_dns
+    fi
+    
+    echo -e "\nDo you want to set systemd default timeout seconds to 20?" # A service that won't stop for over ten seconds will never stop - whether ten minutes, ten days, or even ten years have passed.
+    read -p "(Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        set_systemd_timeout
     fi
 
     echo -e "Which browser do you prefer, Firefox or LibreWolf?\n1 : Firefox (default)\n2 : LibreWolf\n"
@@ -180,6 +215,20 @@ if [ $UID = "0" ]; then
     read -p "(Y/n): " CHK
     if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
         install_ydotool
+    fi
+    
+    echo "From here, these are settings specific to Japanese users."
+    
+    echo -e "\nDo you want to install fcitx5 and skk?"
+    read -p "(Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        sudo apt install fcitx5 fcitx5-skk im-config zenity
+    fi
+    
+    echo -e "\nDo you want to install the font IBM Plex Sans JP?"
+    read -p "(Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        install_font_ipsj
     fi
 
     rm -r -f /tmp/gnusetup
