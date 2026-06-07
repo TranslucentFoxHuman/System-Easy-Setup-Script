@@ -123,9 +123,10 @@ set_systemd_timeout() {
 }
 
 install_font_ipsj() {
+    apt install -y unzip
     mkdir -p /tmp/gnusetup
     mkdir -p /usr/local/share/fonts/truetype
-    wget https://github.com/IBM/plex/releases/download/%40ibm%2Fplex-sans-jp%403.0.0/ibm-plex-sans-jp.zip -o /tmp/gnusetup/ibm-plex-sans-jp.zip
+    curl -L "https://github.com/IBM/plex/releases/download/%40ibm%2Fplex-sans-jp%403.0.0/ibm-plex-sans-jp.zip" -o /tmp/gnusetup/ibm-plex-sans-jp.zip
     unzip -j /tmp/gnusetup/ibm-plex-sans-jp.zip ibm-plex-sans-jp/fonts/complete/ttf/hinted/*.ttf -d "/tmp/gnusetup/IBM Plex Sans JP"
     cp "/tmp/gnusetup/IBM Plex Sans JP" /usr/local/share/fonts/truetype
     chmod -R 0755 /usr/local/share/fonts/truetype
@@ -178,12 +179,6 @@ if [ $UID = "0" ]; then
         if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
             setup_firefox_private
         fi
-    fi
-
-    echo -e "\nDo you want to install fcitx5 and skk?"
-    read -p "(Y/n): " CHK
-    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
-        sudo apt install fcitx5 fcitx5-skk im-config zenity
     fi
 
     echo -e "\nDo you want to install flatpak?"
