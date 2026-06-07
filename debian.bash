@@ -134,7 +134,7 @@ install_font_ipsj() {
 
 # Main Program
 
-echo "Last update: 2026-06-08 02:18#
+echo "Last update: 2026-06-08 02:18"
 
 if [ $UID = "0" ]; then
     echo "Welcome to Debian GNU/Linux initial setup program!"
