@@ -128,7 +128,7 @@ install_font_ipsj() {
     mkdir -p /usr/local/share/fonts/truetype
     curl -L "https://github.com/IBM/plex/releases/download/%40ibm%2Fplex-sans-jp%403.0.0/ibm-plex-sans-jp.zip" -o /tmp/gnusetup/ibm-plex-sans-jp.zip
     unzip -j /tmp/gnusetup/ibm-plex-sans-jp.zip ibm-plex-sans-jp/fonts/complete/ttf/hinted/*.ttf -d "/tmp/gnusetup/IBM Plex Sans JP"
-    cp "/tmp/gnusetup/IBM Plex Sans JP" /usr/local/share/fonts/truetype
+    cp -r "/tmp/gnusetup/IBM Plex Sans JP" /usr/local/share/fonts/truetype
     chmod -R 0755 /usr/local/share/fonts/truetype
 }
 
