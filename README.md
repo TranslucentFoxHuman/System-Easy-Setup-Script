@@ -56,18 +56,23 @@ Because I wrote it for my own use, it isn't very generic and probably won't meet
 The script behaves differently depending on whether it is launched as root or as a normal user.
 
 When started as root, it provides the following features:
+- Set DNS Server as Cloudflare 1.1.1.1 and enable DNS over TLS.
+- Set the systemd's DefaultTimeoutStopSec as 20s. A service that won't stop for over ten seconds will never stop - whether ten minutes, ten days, or even ten years have passed. I believe it.
 - Adds the official repository for Firefox or LibreWolf (you can choose whichever browser you prefer) instead of the distribution's default and installs it.
 - Adds an entry to the application list that launches the chosen browser in a private window.
-- Installs Fcitx5 and SKK. This is meant for me, a Japanese speaker who uses SKK as an input method.
 - Installs Flatpak and adds the Flathub repository.
 - Enables NumLock on the TTY.
 - Adds a system‑wide script that runs `sudo apt update`, `sudo apt upgrade -y`, `sudo apt autoremove -y`, and `flatpak update -y` with a single command. The script can be invoked with the `update` command; besides performing a bulk update, it can automatically reboot after updating with the `-r` option, or shut down with the `-s` option. It's very handy, so give it a try.
+- Install [Microsoft EDIT](https://github.com/microsoft/edit])text editor. If you've been using computers since the days of MS-DOS, this will make it feel very friendly. Otherwise, it is much more modern and easier to use than nano, vim, and emacs. Oops, I shouldn't have brought up this taboo topic:)
+  - Set Microsoft EDIT as default text editor.
 - Enables ZRAM. By default it sets up an 8 GB ZRAM disk for swap and mounts another 8 GB ZRAM area as `/ramdisk`.
   - The ZRAM configuration file can be adjusted.
   - By default, only root can write to the ZRAM disk immediately after initialization, so a service is added to automatically set the correct permissions.
 - Sets up [ydotool](https://github.com/ReimuNotMoe/ydotool).
   - Configures `ydotoold` to start as a daemon on boot. At this time, a group named `ydotool` is created so that `ydotoold` can be used.
   - Specific users can be added to the `ydotool` group.
+- Installs Fcitx5 and SKK. This is meant for me, a Japanese speaker who uses SKK as an input method.
+- Install [IBM Plex Sans JP](https://github.com/IBM/plex) Japanese font.
 
 When started as a normal user, the following feature is available:
 - Adds a custom input rule to SKK that converts text with the conversion key and disables `区点([MM]KKTT)`. In the input method settings for SKK, set the input style to "custom" to enable it. This is probably only useful to me.
@@ -92,6 +97,17 @@ Please do not run it in a format like `irm <script URL> | iex`. This script cont
 
 Do you absolutely never want to launch Microsoft Edge? Or perhaps you're using Tiny 11 or a similar environment and don't have a browser? It's hidden, but there is Internet Explorer! Using the method on the following page, you can open Internet Explorer. Open IE and use it to download this script:
 [https://tlfoxhuman.net/ietools/how-to-open-ie.html](https://tlfoxhuman.net/ietools/how-to-open-ie.html)
+
+### debian.bash
+#### System-wide setup:
+```
+sudo bash -c "bash <(curl https://easysetup.tlfoxhuman.net/debian)"
+```
+#### User-side setup:
+```
+bash <(curl https://easysetup.tlfoxhuman.net/debian)
+```
+
 ## Features planned but not yet implemented
 ### 11Tweaks.ps1
 
