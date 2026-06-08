@@ -1,5 +1,7 @@
 #!/bin/bash
 
+LAST_UPDATE="2026-06-08 20:37"
+
 setup_firefox()
 {
 apt install wget
@@ -166,7 +168,7 @@ install_msedit() {
 
 # Main Program
 
-echo "Last update: 2026-06-08 03:00"
+echo "$LAST_UPDATE"
 
 if [ $UID = "0" ]; then
     echo "Welcome to Debian GNU/Linux initial setup program!"
