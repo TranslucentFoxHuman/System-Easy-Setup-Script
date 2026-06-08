@@ -130,6 +130,22 @@ install_font_ipsj() {
     unzip -j /tmp/gnusetup/ibm-plex-sans-jp.zip ibm-plex-sans-jp/fonts/complete/ttf/hinted/*.ttf -d "/tmp/gnusetup/IBM Plex Sans JP"
     cp -r "/tmp/gnusetup/IBM Plex Sans JP" /usr/local/share/fonts/truetype
     chmod -R 0755 /usr/local/share/fonts/truetype
+    rm -r "/tmp/gnusetup/IBM Plex Sans JP" /tmp/gnusetup/ibm-plex-sans-jp.zip
+}
+
+install_font_plemoljp() {
+    apt install -y unzip
+    mkdir -p /tmp/gnusetup
+    mkdir -p /usr/local/share/fonts/truetype/PlemolJP
+    mkdir -p /usr/local/share/fonts/truetype/PlemolJP_HS
+    curl -L "https://github.com/yuru7/PlemolJP/releases/download/v3.0.0/PlemolJP_v3.0.0.zip" -o /tmp/gnusetup/PlemolJP.zip
+    curl -L "https://github.com/yuru7/PlemolJP/releases/download/v3.0.0/PlemolJP_HS_v3.0.0.zip" -o /tmp/gnusetup/PlemolJP_HS.zip
+    unzip /tmp/gnusetup/PlemolJP.zip -d /tmp/gnusetup/PlemolJP
+    unzip /tmp/gnusetup/PlemolJP_HS.zip -d /tmp/gnusetup/PlemolJP_HS
+    cp -r /tmp/gnusetup/PlemolJP/PlemolJP_v3.0.0/* /usr/local/share/fonts/truetype/PlemolJP
+    cp -r /tmp/gnusetup/PlemolJP_HS/PlemolJP_HS_v3.0.0/* /usr/local/share/fonts/truetype/PlemolJP_HS
+    chmod -R 0755 /usr/local/share/fonts/truetype
+    rm -r /tmp/gnusetup/PlemolJP.zip /tmp/gnusetup/PlemolJP_HS.zip /tmp/gnusetup/PlemolJP/ /tmp/gnusetup/PlemolJP_HS/
 }
 
 install_msedit() {
@@ -244,10 +260,16 @@ if [ $UID = "0" ]; then
         sudo apt install fcitx5 fcitx5-skk im-config zenity
     fi
     
-    echo -e "\nDo you want to install the font IBM Plex Sans JP?"
+    echo -e "\nDo you want to install the Japanese font IBM Plex Sans JP?"
     read -p "(Y/n): " CHK
     if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
         install_font_ipsj
+    fi
+    
+    echo -e "\nDo you want to install the Japanese monospace font PlemolJP?"
+    read -p "(Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        install_font_plemoljp
     fi
 
     rm -r -f /tmp/gnusetup

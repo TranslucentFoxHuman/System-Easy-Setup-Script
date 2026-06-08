@@ -72,7 +72,8 @@ When started as root, it provides the following features:
   - Configures `ydotoold` to start as a daemon on boot. At this time, a group named `ydotool` is created so that `ydotoold` can be used.
   - Specific users can be added to the `ydotool` group.
 - Installs Fcitx5 and SKK. This is meant for me, a Japanese speaker who uses SKK as an input method.
-- Install [IBM Plex Sans JP](https://github.com/IBM/plex) Japanese font.
+- Install [IBM Plex Sans JP](https://github.com/IBM/plex) Japanese font. IBM Plex Sans JP is a cleaner, more legible font than Noto Sans CJK JP, and it offers better consistency between Latin and Japanese characters than BIZ UD Gothic. It's a great choice for both UI and document typesetting. 
+- Install [PlemolJP](https://github.com/yuru7/PlemolJP) Japanese monospace font. This is a monospaced font that blends IBM Plex Sans JP with IBM Plex Sans Mono. It can be used not just for coding but also for terminal and UI display, delivering a very readable environment.
 
 When started as a normal user, the following feature is available:
 - Adds a custom input rule to SKK that converts text with the conversion key and disables `区点([MM]KKTT)`. In the input method settings for SKK, set the input style to "custom" to enable it. This is probably only useful to me.
