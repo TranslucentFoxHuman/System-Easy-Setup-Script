@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LAST_UPDATE="2026-06-08 20:37"
+LAST_UPDATE="2026-07-14 0:16"
 
 setup_firefox()
 {
