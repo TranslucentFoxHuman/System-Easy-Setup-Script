@@ -67,19 +67,30 @@ chmod 0755 /usr/local/bin/update
 
 setup_zrams()
 {
-mkdir /ramdisk
-apt install systemd-zram-generator
-echo "W3pyYW0wXQpob3N0LW1lbW9yeS1saW1pdD1ub25lCnpyYW0tZnJhY3Rpb249MQptYXgtenJhbS1zaXplPTgxOTIKenJhbS1zaXplPTgxOTIKClt6cmFtMV0KaG9zdC1tZW1vcnktbGltaXQ9bm9uZQp6cmFtLWZyYWN0aW9uPTEKbWF4LXpyYW0tc2l6ZT04MTkyCnpyYW0tc2l6ZT04MTkyCmZzLXR5cGU9ZXh0NApvcHRpb25zPWRpc2NhcmQKbW91bnQtcG9pbnQ9L3JhbWRpc2sK" | base64 -d > /etc/systemd/zram-generator.conf
-read -p "Do you want to customize zram-generator.conf? (Y/n): " CHK
-if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
-    nano /etc/systemd/zram-generator.conf
-fi
-read -p "Do you want to install zram1 permission setup service? (Y/n): " CHK
-if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
-    echo "W1VuaXRdCkRlc2NyaXB0aW9uID0gWlJBTTEgUGVybWlzc2lvbiBzZXR1cApBZnRlcj1zeXN0ZW1kLXpyYW0tc2V0dXBAenJhbTEuc2VydmljZQpbU2VydmljZV0KRXhlY1N0YXJ0PS91c3IvYmluL2Jhc2ggLWMgImNobW9kIDA3NzcgL3JhbWRpc2s7cm0gLXIgLWYgL3JhbWRpc2svKiIKVHlwZT1zaW1wbGUKW0luc3RhbGxdCldhbnRlZEJ5PW11bHRpLXVzZXIudGFyZ2V0Cg==" | base64 -d > /etc/systemd/system/zram1-setup.service
-    systemctl enable zram1-setup
-fi
-
+    mkdir /ramdisk
+    apt install systemd-zram-generator
+    echo "W3pyYW0wXQpob3N0LW1lbW9yeS1saW1pdD1ub25lCnpyYW0tZnJhY3Rpb249MQptYXgtenJhbS1zaXplPTgxOTIKenJhbS1zaXplPTgxOTIKClt6cmFtMV0KaG9zdC1tZW1vcnktbGltaXQ9bm9uZQp6cmFtLWZyYWN0aW9uPTEKbWF4LXpyYW0tc2l6ZT04MTkyCnpyYW0tc2l6ZT04MTkyCmZzLXR5cGU9ZXh0NApvcHRpb25zPWRpc2NhcmQKbW91bnQtcG9pbnQ9L3JhbWRpc2sK" | base64 -d > /etc/systemd/zram-generator.conf
+    read -p "Do you also use zram for /tmp? (Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        echo "CgpbenJhbTJdCmhvc3QtbWVtb3J5LWxpbWl0PW5vbmUKenJhbS1mcmFjdGlvbj0xCm1heC16cmFtLXNpemU9ODE5Mgp6cmFtLXNpemU9ODE5Mgpmcy10eXBlPWV4dDQKb3B0aW9ucz1kaXNjYXJkCm1vdW50LXBvaW50PS90bXAKCg==" | base64 -d >> /etc/systemd/zram-generator.conf
+        echo "W1VuaXRdCkRlc2NyaXB0aW9uID0gWlJBTTIgUGVybWlzc2lvbiBzZXR1cApBZnRlcj1zeXN0ZW1kLXpyYW0tc2V0dXBAenJhbTIuc2VydmljZQpbU2VydmljZV0KRXhlY1N0YXJ0PS91c3IvYmluL2Jhc2ggLWMgImNobW9kIDE3NzcgL3RtcDtybSAtciAtZiAvdG1wL2xvc3QrZm91bmQiClR5cGU9c2ltcGxlCltJbnN0YWxsXQpXYW50ZWRCeT1tdWx0aS11c2VyLnRhcmdldAoK" | base64 -d > /etc/systemd/system/zram2-setup.service
+        systemctl enable zram2-setup.service
+    fi
+    read -p "Do you also use zram for /var/log? (Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        echo "CgpbenJhbTNdCmhvc3QtbWVtb3J5LWxpbWl0PW5vbmUKenJhbS1mcmFjdGlvbj0xCm1heC16cmFtLXNpemU9ODE5Mgp6cmFtLXNpemU9ODE5Mgpmcy10eXBlPWV4dDQKb3B0aW9ucz1kaXNjYXJkCm1vdW50LXBvaW50PS92YXIvbG9nCgo=" | base64 -d >> /etc/systemd/zram-generator.conf
+        echo "W1VuaXRdCkRlc2NyaXB0aW9uID0gWlJBTTMgUGVybWlzc2lvbiBzZXR1cApBZnRlcj1zeXN0ZW1kLXpyYW0tc2V0dXBAenJhbTMuc2VydmljZQpbU2VydmljZV0KRXhlY1N0YXJ0PS91c3IvYmluL2Jhc2ggLWMgImNobW9kIDA2NjQgL3Zhci9sb2c7cm0gLXIgLWYgL3Zhci9sb2cvbG9zdCtmb3VuZCIKVHlwZT1zaW1wbGUKW0luc3RhbGxdCldhbnRlZEJ5PW11bHRpLXVzZXIudGFyZ2V0Cgo=" | base64 -d > /etc/systemd/system/zram3-setup.service
+        systemctl enable zram3-setup.service
+    fi
+    read -p "Do you want to customize zram-generator.conf? (Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        nano /etc/systemd/zram-generator.conf
+    fi
+    read -p "Do you want to install zram1 permission setup service? (Y/n): " CHK
+    if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
+        echo "W1VuaXRdCkRlc2NyaXB0aW9uID0gWlJBTTEgUGVybWlzc2lvbiBzZXR1cApBZnRlcj1zeXN0ZW1kLXpyYW0tc2V0dXBAenJhbTEuc2VydmljZQpbU2VydmljZV0KRXhlY1N0YXJ0PS91c3IvYmluL2Jhc2ggLWMgImNobW9kIDA3NzcgL3JhbWRpc2s7cm0gLXIgLWYgL3JhbWRpc2svKiIKVHlwZT1zaW1wbGUKW0luc3RhbGxdCldhbnRlZEJ5PW11bHRpLXVzZXIudGFyZ2V0Cg==" | base64 -d > /etc/systemd/system/zram1-setup.service
+        systemctl enable zram1-setup
+    fi
 }
 
 install_ydotool()
