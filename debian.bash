@@ -244,7 +244,7 @@ if [ $UID = "0" ]; then
     echo -e "\nDo you want to install AppImage Package Manager? ( https://github.com/ivan-hc/AM )"
     read -p "(Y/n): " CHK
     if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
-        bash <(curl https://github.com/ivan-hc/AM/releases/latest/download/AM-INSTALLER)
+        bash <(curl -L https://github.com/ivan-hc/AM/releases/latest/download/AM-INSTALLER)
         AMINSTFLAG="1"
     fi
 
