@@ -245,7 +245,7 @@ if [ $UID = "0" ]; then
     if [[ "$CHK" != "n" && "$CHK" != "N" ]] ; then
         bash <(curl -L https://github.com/ivan-hc/AM/releases/latest/download/AM-INSTALLER) -i am
         # Disable am's root block. Refusing to work on Root is a stupid thing. I confirmed that this program works fine with Root.
-        sed -i sed -i 's/^if \[ "\$(id -u)" = 0 \] && \[ -n "\${SUDO_USER:-\$DOAS_USER}" \]; then$/if [[ "Refusing to work on Root is a stupid thing." == "yes" ]];then/' /opt/am/APP-MANAGER
+        sed -i 's/^if \[ "\$(id -u)" = 0 \] && \[ -n "\${SUDO_USER:-\$DOAS_USER}" \]; then$/if [[ "Refusing to work on Root is a stupid thing." == "yes" ]];then/' /opt/am/APP-MANAGER
         AMINSTFLAG="1"
     fi
 
