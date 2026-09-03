@@ -61,6 +61,8 @@ When started as root, it provides the following features:
 - Adds the official repository for Firefox or LibreWolf (you can choose whichever browser you prefer) instead of the distribution's default and installs it.
 - Adds an entry to the application list that launches the chosen browser in a private window.
 - Installs Flatpak and adds the Flathub repository.
+- Installs [AppImage Package Manager](https://github.com/ivan-hc/AM).  
+	The original AM refuses to work with the Root privilege, so this tool applies the patch that disables it. I tested this program to work with Root without problems. It is not a good idea to indiscriminately refuse actions that run with root privileges.
 - Enables NumLock on the TTY.
 - Adds a system‑wide script that runs `sudo apt update`, `sudo apt upgrade -y`, `sudo apt autoremove -y`, and `flatpak update -y` with a single command. The script can be invoked with the `update` command; besides performing a bulk update, it can automatically reboot after updating with the `-r` option, or shut down with the `-s` option. It's very handy, so give it a try.
 - Install [Microsoft EDIT](https://github.com/microsoft/edit)text editor. If you've been using computers since the days of MS-DOS, this will make it feel very friendly. Otherwise, it is much more modern and easier to use than nano, vim, and emacs. Oops, I shouldn't have brought up this taboo topic:)
